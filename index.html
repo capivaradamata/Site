@@ -1181,7 +1181,7 @@
         // Handle Contact Form Submission
         let lastFormattedMessage = "";
 
-        function handleContactSubmit(event) {
+        async function handleContactSubmit(event) {
             event.preventDefault();
             const nome = document.getElementById('nome').value.trim();
             const empresa = document.getElementById('empresa').value.trim();
@@ -1198,6 +1198,43 @@
             const subject = encodeURIComponent(`Contato Executivo ARLO Intelligence — ${empresa}`);
             const body = encodeURIComponent(lastFormattedMessage);
             document.getElementById('mailto-trigger').href = `mailto:contato@arlointelligence.com.br?subject=${subject}&body=${body}`;
+
+            // Estado visual de envio no botão
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Enviando...';
+            }
+
+            // Disparo automático para o seu e-mail via Web3Forms
+            try {
+                await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        access_key: "c15c65fe-d84c-47ab-b44f-93076fa67f29", // <-- Cole aqui a chave gerada em web3forms.com
+                        subject: `Contato Executivo ARLO Intelligence — ${empresa}`,
+                        from_name: nome,
+                        nome: nome,
+                        empresa: empresa,
+                        segmento: segmento,
+                        contato_retorno: retorno,
+                        topicos: topicsStr,
+                        mensagem: mensagem || 'Sem contexto adicional'
+                    })
+                });
+            } catch (error) {
+                console.error('Erro ao enviar formulário automaticamente:', error);
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
+            }
 
             document.getElementById('success-summary').textContent = 
                 `Recebemos os dados de ${nome} (${empresa}). Você pode disparar diretamente por e-mail abaixo ou copiar a mensagem pronta para o WhatsApp.`;
@@ -1223,10 +1260,10 @@
         }
 
         function resetContactForm() {
+            document.getElementById('contact-form').reset();
             document.getElementById('contact-success').classList.add('hidden');
             document.getElementById('contact-form').classList.remove('hidden');
         }
-
         // Scroll Reveal Observer for Fluid Animations
         const observerOptions = {
             threshold: 0.12,
