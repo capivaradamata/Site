@@ -316,26 +316,26 @@
                             <div class="space-y-2.5 pt-1">
                                 <div>
                                     <div class="flex justify-between text-xs mb-1">
-                                        <span class="text-gray-400">Margem Aparente (Visão Faturamento)</span>
-                                        <span class="font-mono text-gray-300">24,0%</span>
+                                        <span class="text-gray-400">Margem de Contribuição Antes</span>
+                                        <span class="font-mono text-gray-300">14,2%</span>
                                     </div>
                                     <div class="w-full h-2 bg-white/[0.06] rounded-full overflow-hidden">
-                                        <div class="h-full bg-gray-500 rounded-full" style="width: 68%"></div>
+                                        <div class="h-full bg-gray-500 rounded-full" style="width: 45%"></div>
                                     </div>
                                 </div>
                                 <div>
                                     <div class="flex justify-between text-xs mb-1">
-                                        <span class="text-gray-300 font-medium">Margem Líquida Pós-Ajuste ARLO</span>
-                                        <span class="font-mono text-arlo-gold font-semibold">28,8%</span>
+                                        <span class="text-gray-300 font-medium">Margem de Contribuição Pós-ARLO</span>
+                                        <span class="font-mono text-arlo-gold font-semibold">19,0%</span>
                                     </div>
                                     <div class="w-full h-2 bg-white/[0.06] rounded-full overflow-hidden">
-                                        <div class="h-full bg-arlo-gold rounded-full" style="width: 86%"></div>
+                                        <div class="h-full bg-arlo-gold rounded-full" style="width: 68%"></div>
                                     </div>
                                 </div>
                             </div>
 
                             <p class="text-xs text-gray-400 leading-relaxed pt-2 border-t border-white/[0.06]">
-                                Identificação de <strong class="text-white">18% do mix comercial</strong> que consumia capital de giro com margem negativa oculta.
+                                Identificação de 21,4% do volume comercial que operava com margem de contribuição negativa oculta.
                             </p>
                         </div>
                     </div>
@@ -545,7 +545,7 @@
                             Notas fiscais no ERP + Planilhas de Frete e Comissões
                         </h4>
                         <p id="scenario-raw-desc" class="text-sm text-gray-400 leading-relaxed">
-                            A diretoria olhava apenas para a margem bruta de tabela (32%). Porém, descontos comerciais negociados caso a caso, custo de frete por região e prazo médio de recebimento estavam em planilhas separadas.
+                            A diretoria guiava as metas pela margem bruta de tabela (32,0%). Porém, descontos comerciais negociados caso a caso, frete fracionado por região e o custo financeiro do prazo de recebimento estavam dispersos em planilhas separadas.
                         </p>
                         <div id="scenario-raw-tags" class="pt-2 flex flex-wrap gap-2">
                             <span class="font-mono text-[11px] px-2.5 py-1 rounded bg-white/[0.04] text-gray-300">Histórico de Vendas</span>
@@ -564,12 +564,12 @@
                             Mapeamento de Margem de Contribuição Real por Pedido
                         </h4>
                         <p id="scenario-diag-desc" class="text-sm text-gray-300 leading-relaxed">
-                            Ao unificar as bases, a ARLO revelou que 21% do volume vendido para grandes contas deixava margem líquida negativa quando descontados o custo financeiro do prazo de 75 dias e o frete fracionado.
+                            Ao unificar as bases, a ARLO revelou que 21,4% do volume faturado em grandes contas deixava margem de contribuição negativa após deduzir o custo financeiro do prazo médio de 75 dias e o frete real.
                         </p>
                         <div class="pt-2">
                             <div class="p-3 rounded-lg bg-arlo-bg/80 border border-white/[0.06] flex items-center justify-between">
                                 <span id="scenario-metric-label" class="text-xs text-gray-400">Faturamento com margem corroída:</span>
-                                <span id="scenario-metric-val" class="font-mono text-sm font-semibold text-arlo-gold">21,4% do total</span>
+                                <span id="scenario-metric-val" class="font-mono text-sm font-semibold text-arlo-gold">21,4% do volume</span>
                             </div>
                         </div>
                     </div>
@@ -585,7 +585,7 @@
                                 Nova Política de Pedido Mínimo e Alçada de Desconto
                             </h4>
                             <p id="scenario-action-desc" class="text-sm text-gray-400 leading-relaxed">
-                                Com os dados claros em mãos, o dono da empresa ajustou a regra de comissão (de faturamento bruto para margem líquida) e renegociou 14 contratos críticos sem perder clientes estratégicos.
+                                Com a radiografia por SKU e cliente em mãos, a direção ajustou a política de comissionamento (de faturamento bruto para margem de contribuição) e renegociou 14 contratos críticos de logística e prazo sem perder volume estratégico.
                             </p>
                         </div>
 
@@ -615,20 +615,20 @@
                     <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="bg-arlo-bg p-4 rounded-xl border border-white/[0.05]">
                             <div class="flex justify-between text-xs mb-2">
-                                <span id="bar-1-label" class="text-gray-400">Antes: Visão por Faturamento Bruto</span>
-                                <span id="bar-1-value" class="font-mono text-gray-300">Aparente</span>
+                                <span id="bar-1-label" class="text-gray-400">Antes: Margem Real Pré-Ajuste (Oculta)</span>
+                                <span id="bar-1-value" class="font-mono text-gray-300">14,2%</span>
                             </div>
                             <div class="w-full h-2.5 bg-white/[0.05] rounded-full overflow-hidden">
-                                <div id="bar-1-fill" class="h-full bg-gray-500 transition-all duration-500" style="width: 52%"></div>
+                                <div id="bar-1-fill" class="h-full bg-gray-500 transition-all duration-500" style="width: 45%"></div>
                             </div>
                         </div>
                         <div class="bg-arlo-bg p-4 rounded-xl border border-arlo-gold/25">
                             <div class="flex justify-between text-xs mb-2">
-                                <span id="bar-2-label" class="text-white font-medium">Depois: Decisão Orientada por Margem Real</span>
-                                <span id="bar-2-value" class="font-mono text-arlo-gold font-semibold">Otimizado</span>
+                                <span id="bar-2-label" class="text-white font-medium">Depois: Margem Real Pós-Ajuste ARLO</span>
+                                <span id="bar-2-value" class="font-mono text-arlo-gold font-semibold">19,0%</span>
                             </div>
                             <div class="w-full h-2.5 bg-white/[0.05] rounded-full overflow-hidden">
-                                <div id="bar-2-fill" class="h-full bg-arlo-gold transition-all duration-500" style="width: 88%"></div>
+                                <div id="bar-2-fill" class="h-full bg-arlo-gold transition-all duration-500" style="width: 68%"></div>
                             </div>
                         </div>
                     </div>
@@ -1070,61 +1070,61 @@
                 badge: "Cenário 01 • Indústria & Distribuição B2B",
                 title: "Faturamento em alta, mas geração de caixa estagnada",
                 rawTitle: "Notas fiscais no ERP + Planilhas de Frete e Comissões",
-                rawDesc: "A diretoria olhava apenas para a margem bruta de tabela (32%). Porém, descontos comerciais negociados caso a caso, custo de frete por região e prazo médio de recebimento estavam em planilhas separadas.",
+                rawDesc: "A diretoria guiava as metas pela margem bruta de tabela (32,0%). Porém, descontos comerciais negociados caso a caso, frete fracionado por região e o custo financeiro do prazo de recebimento estavam dispersos em planilhas separadas.",
                 rawTags: ["Histórico de Vendas", "Tabela de Custos", "Relatório de Fretes"],
                 diagTitle: "Mapeamento de Margem de Contribuição Real por Pedido",
-                diagDesc: "Ao unificar as bases, a ARLO revelou que 21% do volume vendido para grandes contas deixava margem líquida negativa quando descontados o custo financeiro do prazo de 75 dias e o frete fracionado.",
+                diagDesc: "Ao unificar as bases, a ARLO revelou que 21,4% do volume faturado em grandes contas deixava margem de contribuição negativa após deduzir o custo financeiro do prazo médio de 75 dias e o frete real.",
                 metricLabel: "Faturamento com margem corroída:",
-                metricVal: "21,4% do total",
+                metricVal: "21,4% do volume",
                 actionTitle: "Nova Política de Pedido Mínimo e Alçada de Desconto",
-                actionDesc: "Com os dados claros em mãos, o dono da empresa ajustou a regra de comissão (de faturamento bruto para margem líquida) e renegociou 14 contratos críticos sem perder clientes estratégicos.",
+                actionDesc: "Com a radiografia por SKU e cliente em mãos, a direção ajustou a política de comissionamento (de faturamento bruto para margem de contribuição) e renegociou 14 contratos críticos de logística e prazo sem perder volume estratégico.",
                 resultHighlight: "+4,8 p.p. no Ebitda",
-                bar1Label: "Antes: Visão por Faturamento Bruto",
-                bar1Value: "Margem Real 14,2%",
-                bar1Width: "48%",
-                bar2Label: "Depois: Decisão Orientada por Margem Real",
-                bar2Value: "Margem Real 19,0%",
-                bar2Width: "86%"
+                bar1Label: "Antes: Margem Real Pré-Ajuste (Oculta)",
+                bar1Value: "14,2%",
+                bar1Width: "45%",
+                bar2Label: "Depois: Margem Real Pós-Ajuste ARLO",
+                bar2Value: "19,0%",
+                bar2Width: "68%"
             },
             {
                 badge: "Cenário 02 • Serviços B2B & Vendas Recorrentes",
                 title: "Equipe comercial sobrecarregada e crescimento lento na carteira",
                 rawTitle: "Histórico de Pedidos no CRM + Cadastro de Clientes Ativos",
-                rawDesc: "A empresa possuía mais de 800 clientes cadastrados no histórico de 3 anos, mas os vendedores focavam sempre nos mesmos 50 clientes ou em prospecção fria de alto custo.",
+                rawDesc: "A empresa possuía 800 clientes no histórico de 3 anos (sendo 210 ativos), mas a equipe comercial concentrava 80% do tempo atendendo apenas as mesmas 50 contas ou tentando prospecção fria de alto custo.",
                 rawTags: ["Histórico de Pedidos", "Frequência de Compra", "Mix por Cliente"],
                 diagTitle: "Matriz de Potencial Oculto & Alerta Precoce de Inatividade",
-                diagDesc: "O modelo da ARLO identificou 64 clientes fiéis que compravam apenas a Linha A, mas tinham perfil idêntico aos compradores da Linha B (maior margem), além de 19 contas-chave reduzindo frequência silenciosamente.",
-                metricLabel: "Oportunidade interna mapeada:",
-                metricVal: "R$ 1,4M / ano na base atual",
+                diagDesc: "O cruzamento estatístico da ARLO identificou 64 clientes ativos da Linha A com perfil exato de compra para a Linha B (maior margem), além de 19 contas-chave que apresentavam queda silenciosa na frequência de pedidos.",
+                metricLabel: "Potencial anual mapeado na base:",
+                metricVal: "R$ 1,4M / ano na carteira",
                 actionTitle: "Roteiro Comercial Direcionado por Dados da Carteira",
-                actionDesc: "Em vez de gastar mais com anúncios, a diretoria entregou uma lista cirúrgica de 83 abordagens prioritárias para os vendedores, aumentando o tíquete médio em 60 dias.",
+                actionDesc: "Em vez de aumentar o gasto com anúncios, a diretoria entregou um roteiro cirúrgico com essas 83 abordagens prioritárias (64 de expansão + 19 de retenção), elevando o tíquete médio e recuperando contas em 60 dias.",
                 resultHighlight: "+22% em Receita na Mesma Base",
-                bar1Label: "Antes: Prospecção sem Direcionamento Analítico",
+                bar1Label: "Antes: Abordagem Comercial sem Direcionamento",
                 bar1Value: "Conversão 7%",
-                bar1Width: "35%",
-                bar2Label: "Depois: Abordagem na Carteira Mapeada pela ARLO",
+                bar1Width: "14%",
+                bar2Label: "Depois: Abordagem na Carteira Mapeada ARLO",
                 bar2Value: "Conversão 31%",
-                bar2Width: "84%"
+                bar2Width: "62%"
             },
             {
                 badge: "Cenário 03 • Gestão Executiva & Controle Financeiro",
-                title: "Diretoria gastava 10 dias por mês consolidando planilhas conflitantes",
+                title: "Diretoria levava 10 dias úteis após o fim do mês para fechar os números reais",
                 rawTitle: "Extratos Bancários, Contas a Pagar/Receber e Metas em Excel",
-                rawDesc: "Cada departamento levava seus próprios números para a reunião mensal. Os dados financeiros não batiam com o comercial, e o dono só descobria desvios de orçamento semanas depois do fato.",
+                rawDesc: "Cada área levava números diferentes para a reunião mensal. O fluxo de caixa não conciliava com o comercial, e os sócios só descobriam desvios de orçamento e necessidade de capital de giro duas semanas depois do fato.",
                 rawTags: ["Fluxo de Caixa", "DRE Gerencial", "Metas por Área"],
                 diagTitle: "Arquitetura Única de Indicadores & Painel Executivo Limpo",
-                diagDesc: "A ARLO estruturou o fluxo de dados diretamente da origem, padronizou as regras de negócio e construiu uma visão executiva enxuta com os 7 indicadores que realmente movem o ponteiro da empresa.",
-                metricLabel: "Tempo gasto com relatórios manuais:",
-                metricVal: "Redução de 85%",
+                diagDesc: "A ARLO conectou as origens de dados financeiras e operacionais, padronizou as regras de conciliação e construiu um painel executivo enxuto com os 7 indicadores críticos de caixa, ponto de equilíbrio e margem.",
+                metricLabel: "Tempo gasto no fechamento:",
+                metricVal: "Redução de 80% (de 10 para 2 dias)",
                 actionTitle: "Governança em Tempo Real e Previsibilidade de 90 Dias",
-                actionDesc: "A diretoria passou a acompanhar a projeção de caixa, ponto de equilíbrio e meta diária com atualização automática, antecipando decisões de compra e investimento.",
-                resultHighlight: "Visão Diária Confiável",
-                bar1Label: "Antes: Fechamento Manual Lento e Retroativo",
-                bar1Value: "12 dias de atraso",
-                bar1Width: "30%",
-                bar2Label: "Depois: Painel Executivo Automatizado ARLO",
-                bar2Value: "Atualização Diária",
-                bar2Width: "94%"
+                actionDesc: "A diretoria passou a acompanhar a projeção de fluxo de caixa para 90 dias, ponto de equilíbrio e realização de metas com atualização diária automática, antecipando decisões de compra e alocação de caixa.",
+                resultHighlight: "Previsibilidade de 90 Dias (D+1)",
+                bar1Label: "Antes: Fechamento Manual e Retroativo",
+                bar1Value: "10 dias úteis de atraso",
+                bar1Width: "25%",
+                bar2Label: "Depois: Governança Automatizada ARLO",
+                bar2Value: "Fechamento em D+1 (Diário)",
+                bar2Width: "90%"
             }
         ];
 
