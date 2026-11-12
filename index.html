@@ -21,7 +21,7 @@
     <!-- Google Fonts: Cinzel & Cormorant Garamond (Elegância/Logo), Plus Jakarta Sans (Leitura Executiva), JetBrains Mono (Métricas) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -29,14 +29,18 @@
                 extend: {
                     colors: {
                         arlo: {
-                            bg: '#060608',
-                            surface: '#0D0E12',
-                            elevated: '#13151C',
-                            gold: '#F5C518',
+                            bg: 'var(--bg-primary)',
+                            surface: 'var(--bg-elevated)',
+                            elevated: 'var(--bg-elevated-hover)',
+                            gold: 'var(--accent-primary)',
+                            goldHover: 'var(--accent-hover)',
                             goldMuted: '#C9A21B',
-                            goldSoft: 'rgba(245, 197, 24, 0.12)',
-                            border: 'rgba(255, 255, 255, 0.08)',
-                            borderGold: 'rgba(245, 197, 24, 0.35)'
+                            goldSoft: 'var(--accent-subtle)',
+                            textPrimary: 'var(--text-primary)',
+                            textSecondary: 'var(--text-secondary)',
+                            textMuted: 'var(--text-muted)',
+                            border: 'var(--border-subtle)',
+                            borderGold: 'var(--border-accent)'
                         }
                     },
                     fontFamily: {
@@ -44,6 +48,16 @@
                         serif: ['"Cormorant Garamond"', 'serif'],
                         logo: ['"Cinzel"', 'serif'],
                         mono: ['"JetBrains Mono"', 'monospace']
+                    },
+                    borderRadius: {
+                        'arlo-sm': 'var(--radius-sm)',
+                        'arlo-md': 'var(--radius-md)',
+                        'arlo-lg': 'var(--radius-lg)'
+                    },
+                    boxShadow: {
+                        'arlo-card': 'var(--shadow-card)',
+                        'arlo-card-hover': 'var(--shadow-card-hover)',
+                        'arlo-cta': 'var(--shadow-cta)'
                     }
                 }
             }
@@ -51,18 +65,84 @@
     </script>
 
     <style>
-        /* Custom Executive Styling & Fluidity */
-        body {
-            background-color: #060608;
-            color: #F3F4F6;
+        /* ==========================================================================
+           STAGE 2: CENTRALIZED DESIGN TOKENS (WCAG AA/AAA COMPLIANT)
+           ========================================================================== */
+        :root {
+            /* Surface Palette: 1 Primary Background + 1 Elevated Panel Surface */
+            --bg-primary: #07080B;
+            --bg-elevated: #101218;
+            --bg-elevated-hover: #161922;
+            --bg-glass: rgba(16, 18, 24, 0.84);
+
+            /* High-Contrast Typography Tokens */
+            --text-primary: #F8FAFC;    /* 19.3:1 vs #07080B (AAA) */
+            --text-secondary: #CBD5E1;  /* 13.1:1 vs #07080B (AAA) */
+            --text-muted: #94A3B8;      /*  6.8:1 vs #07080B (AA+) */
+
+            /* Restrained Sovereign Gold Accent & Semantic Positive */
+            --accent-primary: #E5B822;  /* 11.2:1 vs #07080B (AAA) */
+            --accent-hover: #F3C93E;
+            --accent-subtle: rgba(229, 184, 34, 0.10);
+            --status-positive: #34D399;
+
+            /* Architectural Hairline Borders */
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.14);
+            --border-accent: rgba(229, 184, 34, 0.38);
+
+            /* Border Radii Scale */
+            --radius-sm: 0.375rem; /* 6px */
+            --radius-md: 0.625rem; /* 10px */
+            --radius-lg: 0.875rem; /* 14px */
+
+            /* Elevation & Luminance Shadows */
+            --shadow-card: 0 20px 40px -24px rgba(0, 0, 0, 0.85), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+            --shadow-card-hover: 0 28px 56px -20px rgba(0, 0, 0, 0.92), 0 0 32px -8px rgba(229, 184, 34, 0.12), inset 0 1px 0 0 rgba(229, 184, 34, 0.25);
+            --shadow-cta: 0 8px 24px -6px rgba(229, 184, 34, 0.32);
+            --shadow-cta-hover: 0 12px 32px -4px rgba(229, 184, 34, 0.48);
+
+            /* Fluid Easing */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Base Reset & Executive Typography (16px-17px base, 1.65 line-height) */
+        html {
+            font-size: 16px;
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
             overflow-x: hidden;
-            selection-background-color: #F5C518;
-            selection-color: #060608;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.65;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        @media (min-width: 1024px) {
+            body {
+                font-size: 1.0625rem; /* 17px desktop editorial base */
+            }
         }
 
         ::selection {
-            background: rgba(245, 197, 24, 0.25);
-            color: #ffffff;
+            background: rgba(229, 184, 34, 0.28);
+            color: var(--text-primary);
+        }
+
+        /* Accessible Keyboard Focus States */
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 3px;
         }
 
         /* Subtle Architectural Grid Background */
@@ -73,16 +153,24 @@
                 linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
         }
 
-        /* Subtle Gold Radial Glow */
+        /* Subtle Sovereign Gold Radial Glow */
         .hero-glow {
-            background: radial-gradient(circle at 50% 20%, rgba(245, 197, 24, 0.09) 0%, rgba(13, 14, 18, 0.03) 45%, transparent 75%);
+            background: radial-gradient(circle at 50% 16%, rgba(229, 184, 34, 0.08) 0%, rgba(16, 18, 24, 0.03) 45%, transparent 72%);
         }
 
-        /* Smooth Scroll Reveal Transitions */
+        /* Glassmorphic Header Surface */
+        .glass-header {
+            background-color: var(--bg-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        /* GPU-Friendly Scroll Reveal Transitions */
         .reveal {
             opacity: 0;
-            transform: translateY(22px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(20px);
+            transition: opacity 0.75s var(--ease-out-expo), transform 0.75s var(--ease-out-expo);
+            will-change: opacity, transform;
         }
 
         .reveal.visible {
@@ -90,30 +178,124 @@
             transform: translateY(0);
         }
 
-        /* Elegant Card Hover Effect */
+        /* Elevated Executive Card Surface */
         .executive-card {
-            background: linear-gradient(180deg, rgba(19, 21, 28, 0.75) 0%, rgba(13, 14, 18, 0.9) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: linear-gradient(180deg, rgba(22, 25, 34, 0.82) 0%, rgba(16, 18, 24, 0.96) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+            transition: transform 0.35s var(--ease-out-expo), border-color 0.35s var(--ease-out-expo), box-shadow 0.35s var(--ease-out-expo), background-color 0.35s var(--ease-out-expo);
         }
 
         .executive-card:hover {
-            border-color: rgba(245, 197, 24, 0.35);
+            border-color: var(--border-accent);
             transform: translateY(-3px);
-            box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(245, 197, 24, 0.07);
+            box-shadow: var(--shadow-card-hover);
         }
 
-        /* Double Frame Decorative Border inspired by ARLO Logo */
+        /* Static Elevated Panel (for large interactive containers where hover-lift isn't desired) */
+        .executive-panel {
+            background: linear-gradient(180deg, rgba(22, 25, 34, 0.88) 0%, rgba(16, 18, 24, 0.98) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+        }
+
+        /* Double Frame Decorative Border inspired by ARLO Logo — Overflow-safe on 375px */
         .arlo-double-frame {
             position: relative;
         }
         .arlo-double-frame::before {
             content: '';
             position: absolute;
-            inset: -5px;
-            border: 1px solid rgba(245, 197, 24, 0.22);
-            border-radius: 0.85rem;
+            inset: -3px;
+            border: 1px solid rgba(229, 184, 34, 0.22);
+            border-radius: calc(var(--radius-lg) + 3px);
             pointer-events: none;
+            transition: border-color 0.35s var(--ease-out-expo);
+        }
+        @media (min-width: 640px) {
+            .arlo-double-frame::before {
+                inset: -6px;
+                border-radius: calc(var(--radius-lg) + 5px);
+            }
+        }
+        .arlo-double-frame:hover::before {
+            border-color: rgba(229, 184, 34, 0.38);
+        }
+
+        /* Navigation Link Subtle Indicator */
+        .nav-link {
+            position: relative;
+            color: var(--text-secondary);
+            transition: color 0.25s ease, background-color 0.25s ease;
+        }
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            width: 0;
+            height: 1.5px;
+            background-color: var(--accent-primary);
+            transition: width 0.25s var(--ease-out-expo), left 0.25s var(--ease-out-expo);
+        }
+        .nav-link:hover::after {
+            width: calc(100% - 1.75rem);
+            left: 0.875rem;
+        }
+
+        /* Primary CTA Button Micro-Interaction */
+        .btn-primary-gold {
+            background-color: var(--accent-primary);
+            color: var(--bg-primary);
+            box-shadow: var(--shadow-cta);
+            transition: background-color 0.25s var(--ease-out-expo), transform 0.25s var(--ease-out-expo), box-shadow 0.25s var(--ease-out-expo);
+        }
+        .btn-primary-gold:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-cta-hover);
+        }
+        .btn-primary-gold:active {
+            transform: translateY(0);
+        }
+
+        /* Secondary Ghost Button */
+        .btn-secondary-ghost {
+            background-color: rgba(255, 255, 255, 0.03);
+            color: var(--text-primary);
+            border: 1px solid var(--border-strong);
+            transition: background-color 0.25s var(--ease-out-expo), border-color 0.25s var(--ease-out-expo), transform 0.25s var(--ease-out-expo);
+        }
+        .btn-secondary-ghost:hover {
+            background-color: rgba(255, 255, 255, 0.07);
+            border-color: var(--border-accent);
+            transform: translateY(-1px);
+        }
+
+        /* Form Input Styling */
+        .executive-input {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-strong);
+            color: var(--text-primary);
+            border-radius: var(--radius-md);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .executive-input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.65;
+        }
+        .executive-input:hover {
+            border-color: rgba(255, 255, 255, 0.24);
+        }
+        .executive-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(229, 184, 34, 0.14);
         }
 
         /* Custom Scrollbar */
@@ -121,14 +303,14 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #060608;
+            background: var(--bg-primary);
         }
         ::-webkit-scrollbar-thumb {
-            background: #1F222D;
+            background: #1F2430;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #F5C518;
+            background: var(--accent-primary);
         }
 
         /* Animated Data Pulse Line */
@@ -142,44 +324,44 @@
         }
     </style>
 </head>
-<body class="antialiased font-sans selection:bg-arlo-gold/30 selection:text-white">
+<body class="antialiased font-sans">
 
-<!-- ==========================================
+    <!-- ==========================================
           STICKY NAVIGATION BAR
     =========================================== -->
-    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-arlo-bg/85 backdrop-blur-md border-b border-white/[0.06]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between">
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-header border-b border-arlo-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between gap-4">
             
-           <!-- Brand Logo (Imagem Original Sem Corte) -->
-            <a href="#topo" class="flex items-center gap-3.5 sm:gap-4 group focus:outline-none" aria-label="ARLO Intelligence - Voltar ao topo">
-                <img src="logo.png" alt="ARLO Logo" class="h-14 sm:h-20 w-auto object-contain mix-blend-screen transition-transform duration-300 group-hover:scale-105">
+            <!-- Brand Logo (Imagem Original Sem Corte) -->
+            <a href="#topo" class="flex items-center gap-3 sm:gap-4 group rounded-arlo-sm" aria-label="ARLO Intelligence - Voltar ao topo">
+                <img src="logo.png" alt="ARLO Logo" class="h-12 sm:h-16 w-auto object-contain mix-blend-screen transition-transform duration-300 group-hover:scale-105">
                 <div class="flex flex-col">
-                    <span class="font-logo text-white text-base sm:text-lg tracking-[0.28em] font-medium leading-none">ARLO</span>
-                    <span class="font-mono text-[9px] sm:text-[11px] tracking-[0.32em] text-arlo-gold/90 uppercase mt-1">Intelligence</span>
+                    <span class="font-logo text-arlo-textPrimary text-base sm:text-lg tracking-[0.28em] font-medium leading-none">ARLO</span>
+                    <span class="font-mono text-[10px] sm:text-[11px] tracking-[0.30em] text-arlo-gold uppercase mt-1.5 font-medium">Intelligence</span>
                 </div>
             </a>
 
             <!-- Desktop Anchor Navigation -->
-            <nav class="hidden md:flex items-center gap-1 lg:gap-2">
-                <a href="#solucoes" class="nav-link px-3.5 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/[0.04] transition-colors">O Que Fazemos</a>
-                <a href="#exemplos" class="nav-link px-3.5 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/[0.04] transition-colors">Na Prática</a>
-                <a href="#perguntas" class="nav-link px-3.5 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/[0.04] transition-colors">Perguntas que Respondemos</a>
-                <a href="#metodologia" class="nav-link px-3.5 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/[0.04] transition-colors">Como Trabalhamos</a>
-                <a href="#quem-somos" class="nav-link px-3.5 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/[0.04] transition-colors">Quem Somos</a>
+            <nav class="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Navegação Principal">
+                <a href="#solucoes" class="nav-link px-3.5 py-2 rounded-arlo-sm text-sm font-medium">O Que Fazemos</a>
+                <a href="#exemplos" class="nav-link px-3.5 py-2 rounded-arlo-sm text-sm font-medium">Na Prática</a>
+                <a href="#perguntas" class="nav-link px-3.5 py-2 rounded-arlo-sm text-sm font-medium">Perguntas que Respondemos</a>
+                <a href="#metodologia" class="nav-link px-3.5 py-2 rounded-arlo-sm text-sm font-medium">Como Trabalhamos</a>
+                <a href="#quem-somos" class="nav-link px-3.5 py-2 rounded-arlo-sm text-sm font-medium">Quem Somos</a>
             </nav>
 
             <!-- Primary CTA Button (Scrolls to Contact) -->
-            <div class="hidden md:flex items-center">
-                <a href="#contato" class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-lg bg-arlo-gold text-arlo-bg font-semibold text-sm tracking-wide hover:bg-yellow-400 transition-all shadow-[0_0_20px_rgba(245,197,24,0.2)] hover:shadow-[0_0_28px_rgba(245,197,24,0.4)]">
+            <div class="hidden lg:flex items-center">
+                <a href="#contato" class="btn-primary-gold inline-flex items-center gap-2.5 px-5 py-2.5 rounded-arlo-md font-semibold text-sm tracking-wide">
                     <span>Iniciar Conversa</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                     </svg>
                 </a>
             </div>
 
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden p-2.5 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 focus:outline-none" aria-label="Abrir Menu">
+            <!-- Mobile & Tablet Menu Button -->
+            <button id="mobile-menu-btn" class="lg:hidden p-2.5 rounded-arlo-md text-arlo-textSecondary hover:text-arlo-textPrimary hover:bg-white/[0.06] transition-colors" aria-label="Abrir Menu" aria-expanded="false">
                 <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
@@ -189,15 +371,15 @@
             </button>
         </div>
 
-        <!-- Mobile Dropdown Navigation -->
-        <div id="mobile-menu" class="hidden md:hidden bg-arlo-surface/95 backdrop-blur-xl border-b border-white/10 px-4 pt-3 pb-6 space-y-2">
-            <a href="#solucoes" class="mobile-nav-link block px-4 py-3 rounded-lg text-base text-gray-200 hover:bg-white/5">O Que Fazemos</a>
-            <a href="#exemplos" class="mobile-nav-link block px-4 py-3 rounded-lg text-base text-gray-200 hover:bg-white/5">Na Prática (Exemplos)</a>
-            <a href="#perguntas" class="mobile-nav-link block px-4 py-3 rounded-lg text-base text-gray-200 hover:bg-white/5">Perguntas que Respondemos</a>
-            <a href="#metodologia" class="mobile-nav-link block px-4 py-3 rounded-lg text-base text-gray-200 hover:bg-white/5">Como Trabalhamos</a>
-            <a href="#quem-somos" class="mobile-nav-link block px-4 py-3 rounded-lg text-base text-gray-200 hover:bg-white/5">Quem Somos</a>
-            <div class="pt-2">
-                <a href="#contato" class="mobile-nav-link w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-lg bg-arlo-gold text-arlo-bg font-semibold text-base">
+        <!-- Mobile & Tablet Dropdown Navigation -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-arlo-surface/95 backdrop-blur-xl border-b border-arlo-border px-4 pt-3 pb-6 space-y-1.5">
+            <a href="#solucoes" class="mobile-nav-link block px-4 py-3 rounded-arlo-md text-base font-medium text-arlo-textPrimary hover:bg-white/[0.05] transition-colors">O Que Fazemos</a>
+            <a href="#exemplos" class="mobile-nav-link block px-4 py-3 rounded-arlo-md text-base font-medium text-arlo-textPrimary hover:bg-white/[0.05] transition-colors">Na Prática (Exemplos)</a>
+            <a href="#perguntas" class="mobile-nav-link block px-4 py-3 rounded-arlo-md text-base font-medium text-arlo-textPrimary hover:bg-white/[0.05] transition-colors">Perguntas que Respondemos</a>
+            <a href="#metodologia" class="mobile-nav-link block px-4 py-3 rounded-arlo-md text-base font-medium text-arlo-textPrimary hover:bg-white/[0.05] transition-colors">Como Trabalhamos</a>
+            <a href="#quem-somos" class="mobile-nav-link block px-4 py-3 rounded-arlo-md text-base font-medium text-arlo-textPrimary hover:bg-white/[0.05] transition-colors">Quem Somos</a>
+            <div class="pt-3">
+                <a href="#contato" class="mobile-nav-link btn-primary-gold w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-arlo-md font-semibold text-base">
                     <span>Iniciar Conversa</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
@@ -207,944 +389,966 @@
         </div>
     </header>
 
-    <!-- ==========================================
-         HERO SECTION
-    =========================================== -->
-    <section id="topo" class="relative min-h-screen pt-28 pb-20 lg:pt-36 lg:pb-28 flex items-center bg-architectural-grid hero-glow overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
-                
-                <!-- Left Column: Core Value Proposition -->
-                <div class="lg:col-span-7 space-y-8 reveal visible">
-                    <!-- Eyebrow Tag -->
-                    <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-arlo-gold/30">
-                        <span class="w-2 h-2 rounded-full bg-arlo-gold animate-pulse"></span>
-                        <span class="font-mono text-xs uppercase tracking-[0.2em] text-arlo-gold">Inteligência Analítica & Estratégia B2B</span>
-                    </div>
-
-                    <!-- Signature Headline requested by user -->
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-light tracking-tight text-white leading-[1.12]">
-                        A resposta que sua empresa precisa, <span class="font-serif italic font-normal text-arlo-gold">nos dados que você já tem.</span>
-                    </h1>
-
-                    <!-- Executive Subheadline -->
-                    <p class="text-lg sm:text-xl text-gray-400 font-light leading-relaxed max-w-2xl">
-                        Toda operação acumula anos de registros financeiros, comerciais e operacionais subutilizados em planilhas e sistemas. A <strong class="text-gray-200 font-medium">ARLO Intelligence</strong> transforma esse histórico bruto em clareza executiva para proteger margens, corrigir rotas e direcionar o crescimento.
-                    </p>
-
-                    <!-- Action Buttons -->
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-                        <a href="#contato" class="inline-flex items-center justify-center gap-3 px-7 py-4 rounded-xl bg-arlo-gold text-arlo-bg font-semibold text-base tracking-wide hover:bg-yellow-400 transition-all shadow-[0_0_30px_rgba(245,197,24,0.22)]">
-                            <span>Conversar Sobre Minha Empresa</span>
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
-                        </a>
-                        <a href="#exemplos" class="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] text-gray-200 border border-white/10 font-medium text-base transition-all">
-                            <span>Ver Exemplos na Prática</span>
-                            <svg class="w-4 h-4 text-arlo-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </a>
-                    </div>
-
-                    <!-- Subtle Reassurance Pillars -->
-                    <div class="pt-6 border-t border-white/[0.07] grid grid-cols-3 gap-4 sm:gap-8 max-w-xl">
-                        <div>
-                            <p class="font-mono text-xs text-arlo-gold uppercase tracking-wider">Sem Troca de ERP</p>
-                            <p class="text-xs sm:text-sm text-gray-400 mt-1">Trabalhamos sobre a estrutura que você já utiliza.</p>
-                        </div>
-                        <div>
-                            <p class="font-mono text-xs text-arlo-gold uppercase tracking-wider">Foco no Dono</p>
-                            <p class="text-xs sm:text-sm text-gray-400 mt-1">Visão direta de lucro, caixa e eficiência comercial.</p>
-                        </div>
-                        <div>
-                            <p class="font-mono text-xs text-arlo-gold uppercase tracking-wider">Zero Poluição</p>
-                            <p class="text-xs sm:text-sm text-gray-400 mt-1">Respostas acionáveis em vez de relatórios confusos.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Architectural "Data-to-Clarity" Interactive Visual Card -->
-                <div class="lg:col-span-5 reveal visible">
-                    <div class="executive-card rounded-2xl p-6 sm:p-8 relative arlo-double-frame">
-                        <!-- Top Card Header -->
-                        <div class="flex items-center justify-between pb-5 mb-6 border-b border-white/[0.07]">
-                            <div class="flex items-center gap-3">
-                                <div class="w-2.5 h-2.5 rounded-full bg-arlo-gold"></div>
-                                <span class="font-mono text-xs uppercase tracking-widest text-gray-300">Arquitetura de Decisão ARLO</span>
-                            </div>
-                            <span class="font-mono text-[11px] text-arlo-gold bg-arlo-gold/10 px-2.5 py-1 rounded border border-arlo-gold/20">Visão Executiva</span>
-                        </div>
-
-                        <!-- Step 1: Dispersed Raw Data -->
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between text-xs text-gray-400">
-                                <span class="font-mono uppercase tracking-wider">1. Dados Já Existentes na Empresa</span>
-                                <span>Dispersos</span>
-                            </div>
-                            <div class="grid grid-cols-3 gap-2.5">
-                                <div class="bg-white/[0.02] border border-white/[0.06] rounded-lg p-3 text-center">
-                                    <span class="block font-mono text-[11px] text-gray-400">ERP & Fiscal</span>
-                                    <span class="block text-xs text-gray-200 font-medium mt-1">Faturamento</span>
-                                </div>
-                                <div class="bg-white/[0.02] border border-white/[0.06] rounded-lg p-3 text-center">
-                                    <span class="block font-mono text-[11px] text-gray-400">Planilhas</span>
-                                    <span class="block text-xs text-gray-200 font-medium mt-1">Custos & Frete</span>
-                                </div>
-                                <div class="bg-white/[0.02] border border-white/[0.06] rounded-lg p-3 text-center">
-                                    <span class="block font-mono text-[11px] text-gray-400">Comercial</span>
-                                    <span class="block text-xs text-gray-200 font-medium mt-1">Descontos</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Animated Funnel Connector -->
-                        <div class="my-4 flex flex-col items-center">
-                            <svg class="w-full h-12" viewBox="0 0 300 45" fill="none">
-                                <path d="M50 2 C50 22, 150 18, 150 42" stroke="rgba(245,197,24,0.35)" stroke-width="1.5" class="data-flow-line"/>
-                                <path d="M150 2 L150 42" stroke="rgba(245,197,24,0.55)" stroke-width="1.5" class="data-flow-line"/>
-                                <path d="M250 2 C250 22, 150 18, 150 42" stroke="rgba(245,197,24,0.35)" stroke-width="1.5" class="data-flow-line"/>
-                                <circle cx="150" cy="22" r="12" fill="#0D0E12" stroke="#F5C518" stroke-width="1.5"/>
-                                <circle cx="150" cy="22" r="4" fill="#F5C518"/>
-                            </svg>
-                            <span class="font-mono text-[10px] uppercase tracking-[0.25em] text-arlo-gold">Refinamento & Cruzamento ARLO</span>
-                        </div>
-
-                        <!-- Step 2: The Executive Answer Box -->
-                        <div class="bg-arlo-bg/90 border border-arlo-gold/30 rounded-xl p-5 space-y-4">
-                            <div class="flex items-start justify-between gap-4">
-                                <div>
-                                    <span class="font-mono text-[10px] uppercase tracking-widest text-arlo-gold block">Diagnóstico Revelado</span>
-                                    <h3 class="text-sm sm:text-base font-medium text-white mt-1">Rentabilidade Real por Linha & Cliente</h3>
-                                </div>
-                                <span class="font-mono text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded">
-                                    +4,8 p.p. Margem
-                                </span>
-                            </div>
-
-                            <!-- Mini Visual Comparison Bars -->
-                            <div class="space-y-2.5 pt-1">
-                                <div>
-                                    <div class="flex justify-between text-xs mb-1">
-                                        <span class="text-gray-400">Margem de Contribuição Antes</span>
-                                        <span class="font-mono text-gray-300">14,2%</span>
-                                    </div>
-                                    <div class="w-full h-2 bg-white/[0.06] rounded-full overflow-hidden">
-                                        <div class="h-full bg-gray-500 rounded-full" style="width: 45%"></div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="flex justify-between text-xs mb-1">
-                                        <span class="text-gray-300 font-medium">Margem de Contribuição Pós-ARLO</span>
-                                        <span class="font-mono text-arlo-gold font-semibold">19,0%</span>
-                                    </div>
-                                    <div class="w-full h-2 bg-white/[0.06] rounded-full overflow-hidden">
-                                        <div class="h-full bg-arlo-gold rounded-full" style="width: 68%"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <p class="text-xs text-gray-400 leading-relaxed pt-2 border-t border-white/[0.06]">
-                                Identificação de 21,4% do volume comercial que operava com margem de contribuição negativa oculta.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ==========================================
-         SECTION 1: O QUE FAZEMOS (#solucoes)
-    =========================================== -->
-    <section id="solucoes" class="py-24 lg:py-32 border-t border-white/[0.06] bg-arlo-surface/40 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <!-- Section Header -->
-            <div class="max-w-3xl space-y-4 reveal">
-                <div class="inline-flex items-center gap-2">
-                    <span class="w-6 h-[1px] bg-arlo-gold"></span>
-                    <span class="font-mono text-xs uppercase tracking-[0.25em] text-arlo-gold">O Que Fazemos</span>
-                </div>
-                <h2 class="text-3xl sm:text-4xl font-light text-white tracking-tight leading-snug">
-                    Três frentes de inteligência desenhadas para <span class="font-serif italic text-arlo-gold">quem toma decisões.</span>
-                </h2>
-                <p class="text-gray-400 text-base sm:text-lg font-light leading-relaxed">
-                    Não entregamos apenas gráficos bonitos. Estruturamos análises profundas que respondem onde sua empresa ganha dinheiro, onde perde eficiência e para onde deve crescer.
-                </p>
-            </div>
-
-            <!-- 3 Pillars Grid -->
-            <div class="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-8">
-                
-                <!-- Pillar 1 -->
-                <div class="executive-card rounded-2xl p-8 flex flex-col justify-between reveal">
-                    <div class="space-y-6">
-                        <div class="w-12 h-12 rounded-xl bg-arlo-gold/10 border border-arlo-gold/30 flex items-center justify-center text-arlo-gold">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <span class="font-mono text-xs text-arlo-gold/80 uppercase tracking-widest">01 / Rentabilidade</span>
-                            <h3 class="text-xl font-semibold text-white mt-1.5">Inteligência Financeira & Margem</h3>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed">
-                            Muitas empresas faturam bem, mas não sabem exatamente onde o lucro líquido escoa. Cruzamos custos diretos, impostos, comissões, prazos e logística para revelar a margem real de cada operação.
-                        </p>
-                        <ul class="space-y-2.5 pt-2 border-t border-white/[0.06] text-xs sm:text-sm text-gray-300">
-                            <li class="flex items-center gap-2.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold"></span>
-                                Lucratividade real por produto (SKU), serviço ou cliente
-                            </li>
-                            <li class="flex items-center gap-2.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold"></span>
-                                Simulação de precificação e elasticidade de descontos
-                            </li>
-                            <li class="flex items-center gap-2.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold"></span>
-                                Diagnóstico de ciclo de caixa e capital de giro retido
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="pt-8 mt-8 border-t border-white/[0.05] flex items-center justify-between">
-                        <span class="font-mono text-xs text-gray-400">Impacto Direto: Ebitda & Caixa</span>
-                        <a href="#exemplos" onclick="selectScenario(0)" class="text-xs font-medium text-arlo-gold hover:underline">Ver exemplo →</a>
-                    </div>
-                </div>
-
-                <!-- Pillar 2 -->
-                <div class="executive-card rounded-2xl p-8 flex flex-col justify-between reveal">
-                    <div class="space-y-6">
-                        <div class="w-12 h-12 rounded-xl bg-arlo-gold/10 border border-arlo-gold/30 flex items-center justify-center text-arlo-gold">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <span class="font-mono text-xs text-arlo-gold/80 uppercase tracking-widest">02 / Crescimento</span>
-                            <h3 class="text-xl font-semibold text-white mt-1.5">Inteligência Comercial & Mercado</h3>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed">
-                            Para onde expandir a equipe de vendas? Quais clientes estão prestes a parar de comprar? Usamos a estatística da sua carteira combinada a dados de mercado para direcionar o esforço comercial.
-                        </p>
-                        <ul class="space-y-2.5 pt-2 border-t border-white/[0.06] text-xs sm:text-sm text-gray-300">
-                            <li class="flex items-center gap-2.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold"></span>
-                                Diagnóstico de retenção, recorrência e risco de perda (Churn)
-                            </li>
-                            <li class="flex items-center gap-2.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold"></span>
-                                Identificação de oportunidades de venda cruzada (Cross-sell)
-                            </li>
-                            <li class="flex items-center gap-2.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold"></span>
-                                Mapeamento de potencial regional e eficiência de vendedores
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="pt-8 mt-8 border-t border-white/[0.05] flex items-center justify-between">
-                        <span class="font-mono text-xs text-gray-400">Impacto Direto: Receita & Expansão</span>
-                        <a href="#exemplos" onclick="selectScenario(1)" class="text-xs font-medium text-arlo-gold hover:underline">Ver exemplo →</a>
-                    </div>
-                </div>
-
-                <!-- Pillar 3 -->
-                <div class="executive-card rounded-2xl p-8 flex flex-col justify-between reveal">
-                    <div class="space-y-6">
-                        <div class="w-12 h-12 rounded-xl bg-arlo-gold/10 border border-arlo-gold/30 flex items-center justify-center text-arlo-gold">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <span class="font-mono text-xs text-arlo-gold/80 uppercase tracking-widest">03 / Gestão & Clareza</span>
-                            <h3 class="text-xl font-semibold text-white mt-1.5">Performance Operacional & Executiva</h3>
-                        </div>
-                        <p class="text-gray-400 text-sm leading-relaxed">
-                            Eliminamos o trabalho manual de consolidar dezenas de planilhas toda semana. Criamos uma fonte única de verdade com painéis executivos limpos, desenhados para leitura rápida da diretoria.
-                        </p>
-                        <ul class="space-y-2.5 pt-2 border-t border-white/[0.06] text-xs sm:text-sm text-gray-300">
-                            <li class="flex items-center gap-2.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold"></span>
-                                Painéis executivos sem poluição visual (KPIs críticos)
-                            </li>
-                            <li class="flex items-center gap-2.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold"></span>
-                                Integração automática entre ERP, CRM e planilhas
-                            </li>
-                            <li class="flex items-center gap-2.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold"></span>
-                                Acompanhamento de metas, orçamento e produtividade
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="pt-8 mt-8 border-t border-white/[0.05] flex items-center justify-between">
-                        <span class="font-mono text-xs text-gray-400">Impacto Direto: Tempo & Controle</span>
-                        <a href="#exemplos" onclick="selectScenario(2)" class="text-xs font-medium text-arlo-gold hover:underline">Ver exemplo →</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ==========================================
-         SECTION 2: NA PRÁTICA — SIMULADOR DE CENÁRIOS (#exemplos)
-         (Substitui depoimentos com prova prática de capacidade analítica)
-    =========================================== -->
-    <section id="exemplos" class="py-24 lg:py-32 border-t border-white/[0.06] relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <!-- Header + Scenario Tabs -->
-            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 reveal">
-                <div class="max-w-2xl space-y-4">
-                    <div class="inline-flex items-center gap-2">
-                        <span class="w-6 h-[1px] bg-arlo-gold"></span>
-                        <span class="font-mono text-xs uppercase tracking-[0.25em] text-arlo-gold">Na Prática</span>
-                    </div>
-                    <h2 class="text-3xl sm:text-4xl font-light text-white tracking-tight leading-snug">
-                        Como dados comuns se transformam em <span class="font-serif italic text-arlo-gold">decisões de alto impacto.</span>
-                    </h2>
-                    <p class="text-gray-400 text-base font-light">
-                        Selecione um cenário abaixo para visualizar como a ARLO analisa os dados que uma empresa já possui e encontra respostas financeiras e operacionais ocultas.
-                    </p>
-                </div>
-
-                <!-- Interactive Scenario Selector Buttons -->
-                <div class="flex flex-wrap gap-2 bg-arlo-surface p-1.5 rounded-xl border border-white/[0.08]">
-                    <button onclick="selectScenario(0)" id="tab-btn-0" class="scenario-tab px-4 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-arlo-gold text-arlo-bg shadow">
-                        1. Vazamento de Margem
-                    </button>
-                    <button onclick="selectScenario(1)" id="tab-btn-1" class="scenario-tab px-4 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-gray-300 hover:text-white">
-                        2. Eficiência Comercial
-                    </button>
-                    <button onclick="selectScenario(2)" id="tab-btn-2" class="scenario-tab px-4 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-gray-300 hover:text-white">
-                        3. Previsibilidade de Caixa
-                    </button>
-                </div>
-            </div>
-
-            <!-- Interactive Scenario Showcase Container -->
-            <div class="mt-12 executive-card rounded-2xl p-6 sm:p-10 border border-white/10 reveal">
-                
-                <!-- Top Scenario Meta Bar -->
-                <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-white/[0.07]">
-                    <div class="flex items-center gap-3">
-                        <span id="scenario-badge" class="font-mono text-xs uppercase tracking-widest px-3 py-1 rounded bg-arlo-gold/15 text-arlo-gold border border-arlo-gold/30">
-                            Cenário 01 • Indústria & Distribuição B2B
-                        </span>
-                        <h3 id="scenario-title" class="text-lg sm:text-xl font-medium text-white">
-                            Faturamento em alta, mas geração de caixa estagnada
-                        </h3>
-                    </div>
-                    <span class="font-mono text-xs text-gray-400">Simulação Demonstrativa ARLO</span>
-                </div>
-
-                <!-- 3-Step Transformation Columns -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+    <main>
+        <!-- ==========================================
+             HERO SECTION
+        =========================================== -->
+        <section id="topo" class="relative min-h-screen pt-28 pb-20 lg:pt-36 lg:pb-28 flex items-center bg-architectural-grid hero-glow overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12 items-center">
                     
-                    <!-- Step A: O Dado Existente -->
-                    <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="font-mono text-xs uppercase tracking-wider text-gray-400">A. O Dado que Já Existia</span>
-                            <span class="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center font-mono text-xs text-gray-400">1</span>
-                        </div>
-                        <h4 id="scenario-raw-title" class="text-base font-semibold text-gray-200">
-                            Notas fiscais no ERP + Planilhas de Frete e Comissões
-                        </h4>
-                        <p id="scenario-raw-desc" class="text-sm text-gray-400 leading-relaxed">
-                            A diretoria guiava as metas pela margem bruta de tabela (32,0%). Porém, descontos comerciais negociados caso a caso, frete fracionado por região e o custo financeiro do prazo de recebimento estavam dispersos em planilhas separadas.
-                        </p>
-                        <div id="scenario-raw-tags" class="pt-2 flex flex-wrap gap-2">
-                            <span class="font-mono text-[11px] px-2.5 py-1 rounded bg-white/[0.04] text-gray-300">Histórico de Vendas</span>
-                            <span class="font-mono text-[11px] px-2.5 py-1 rounded bg-white/[0.04] text-gray-300">Tabela de Custos</span>
-                            <span class="font-mono text-[11px] px-2.5 py-1 rounded bg-white/[0.04] text-gray-300">Relatório de Fretes</span>
-                        </div>
-                    </div>
-
-                    <!-- Step B: O Diagnóstico ARLO -->
-                    <div class="bg-arlo-gold/[0.04] border border-arlo-gold/25 rounded-xl p-6 space-y-4 relative">
-                        <div class="flex items-center justify-between">
-                            <span class="font-mono text-xs uppercase tracking-wider text-arlo-gold">B. O Cruzamento ARLO</span>
-                            <span class="w-6 h-6 rounded-full bg-arlo-gold/20 flex items-center justify-center font-mono text-xs text-arlo-gold">2</span>
-                        </div>
-                        <h4 id="scenario-diag-title" class="text-base font-semibold text-white">
-                            Mapeamento de Margem de Contribuição Real por Pedido
-                        </h4>
-                        <p id="scenario-diag-desc" class="text-sm text-gray-300 leading-relaxed">
-                            Ao unificar as bases, a ARLO revelou que 21,4% do volume faturado em grandes contas deixava margem de contribuição negativa após deduzir o custo financeiro do prazo médio de 75 dias e o frete real.
-                        </p>
-                        <div class="pt-2">
-                            <div class="p-3 rounded-lg bg-arlo-bg/80 border border-white/[0.06] flex items-center justify-between">
-                                <span id="scenario-metric-label" class="text-xs text-gray-400">Faturamento com margem corroída:</span>
-                                <span id="scenario-metric-val" class="font-mono text-sm font-semibold text-arlo-gold">21,4% do volume</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step C: A Decisão Executiva -->
-                    <div class="bg-white/[0.02] border border-white/[0.06] rounded-xl p-6 space-y-4 flex flex-col justify-between">
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between">
-                                <span class="font-mono text-xs uppercase tracking-wider text-emerald-400">C. A Resposta & Ação</span>
-                                <span class="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center font-mono text-xs text-emerald-400">3</span>
-                            </div>
-                            <h4 id="scenario-action-title" class="text-base font-semibold text-white">
-                                Nova Política de Pedido Mínimo e Alçada de Desconto
-                            </h4>
-                            <p id="scenario-action-desc" class="text-sm text-gray-400 leading-relaxed">
-                                Com a radiografia por SKU e cliente em mãos, a direção ajustou a política de comissionamento (de faturamento bruto para margem de contribuição) e renegociou 14 contratos críticos de logística e prazo sem perder volume estratégico.
-                            </p>
+                    <!-- Left Column: Core Value Proposition -->
+                    <div class="lg:col-span-7 space-y-8 reveal visible">
+                        <!-- Eyebrow Tag -->
+                        <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-arlo-goldSoft border border-arlo-borderGold">
+                            <span class="w-2 h-2 rounded-full bg-arlo-gold animate-pulse"></span>
+                            <span class="font-mono text-xs uppercase tracking-[0.18em] text-arlo-gold font-medium">Inteligência Analítica & Estratégia B2B</span>
                         </div>
 
-                        <!-- Visual Outcome Highlight -->
-                        <div class="pt-4 border-t border-white/[0.06] flex items-center justify-between">
-                            <div>
-                                <span class="block text-[11px] font-mono uppercase text-gray-400">Resultado Prático</span>
-                                <span id="scenario-result-highlight" class="text-lg font-semibold text-emerald-400">+4,8 p.p. no Ebitda</span>
-                            </div>
-                            <a href="#contato" class="text-xs font-medium text-arlo-gold hover:underline flex items-center gap-1">
-                                <span>Avaliar na minha empresa</span>
-                                <span>→</span>
-                            </a>
-                        </div>
-                    </div>
+                        <!-- Signature Headline -->
+                        <h1 class="text-4xl sm:text-5xl lg:text-[3.75rem] font-light tracking-[-0.025em] text-arlo-textPrimary leading-[1.10]">
+                            A resposta que sua empresa precisa, <span class="font-serif italic font-normal text-arlo-gold">nos dados que você já tem.</span>
+                        </h1>
 
-                </div>
-
-                <!-- Interactive Visual Bar Comparison Footer -->
-                <div class="mt-8 pt-6 border-t border-white/[0.07] grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                    <div class="md:col-span-4">
-                        <span class="font-mono text-xs uppercase tracking-wider text-gray-400 block">Visualização Executiva Limpa</span>
-                        <p id="scenario-chart-caption" class="text-xs text-gray-400 mt-1">
-                            Comparativo entre a percepção anterior da diretoria e a radiografia real entregue pela ARLO.
-                        </p>
-                    </div>
-                    <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="bg-arlo-bg p-4 rounded-xl border border-white/[0.05]">
-                            <div class="flex justify-between text-xs mb-2">
-                                <span id="bar-1-label" class="text-gray-400">Antes: Margem Real Pré-Ajuste (Oculta)</span>
-                                <span id="bar-1-value" class="font-mono text-gray-300">14,2%</span>
-                            </div>
-                            <div class="w-full h-2.5 bg-white/[0.05] rounded-full overflow-hidden">
-                                <div id="bar-1-fill" class="h-full bg-gray-500 transition-all duration-500" style="width: 45%"></div>
-                            </div>
-                        </div>
-                        <div class="bg-arlo-bg p-4 rounded-xl border border-arlo-gold/25">
-                            <div class="flex justify-between text-xs mb-2">
-                                <span id="bar-2-label" class="text-white font-medium">Depois: Margem Real Pós-Ajuste ARLO</span>
-                                <span id="bar-2-value" class="font-mono text-arlo-gold font-semibold">19,0%</span>
-                            </div>
-                            <div class="w-full h-2.5 bg-white/[0.05] rounded-full overflow-hidden">
-                                <div id="bar-2-fill" class="h-full bg-arlo-gold transition-all duration-500" style="width: 68%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ==========================================
-         SECTION 3: PERGUNTAS QUE RESPONDEMOS (#perguntas)
-    =========================================== -->
-    <section id="perguntas" class="py-24 lg:py-32 border-t border-white/[0.06] bg-arlo-surface/40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="max-w-3xl space-y-4 reveal">
-                <div class="inline-flex items-center gap-2">
-                    <span class="w-6 h-[1px] bg-arlo-gold"></span>
-                    <span class="font-mono text-xs uppercase tracking-[0.25em] text-arlo-gold">Clareza Estratégica</span>
-                </div>
-                <h2 class="text-3xl sm:text-4xl font-light text-white tracking-tight leading-snug">
-                    Perguntas que todo dono de empresa faz — <span class="font-serif italic text-arlo-gold">e que nós respondemos com precisão.</span>
-                </h2>
-                <p class="text-gray-400 text-base sm:text-lg font-light">
-                    Se você já se fez alguma das perguntas abaixo em uma reunião de diretoria e não teve uma resposta confiável em menos de 5 minutos, sua empresa possui uma oportunidade clara com a ARLO.
-                </p>
-            </div>
-
-            <!-- 6 Executive Questions Grid -->
-            <div class="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                <!-- Question Card 1 -->
-                <div class="executive-card rounded-xl p-6 space-y-3 reveal">
-                    <span class="font-mono text-xs text-arlo-gold">01 / LUCRO REAL</span>
-                    <h3 class="text-base sm:text-lg font-medium text-white leading-snug">
-                        "Quais clientes ou produtos realmente deixam lucro líquido após todos os custos ocultos?"
-                    </h3>
-                    <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">
-                        Identificamos exatamente quem financia o seu crescimento e quem apenas infla o faturamento consumindo estrutura.
-                    </p>
-                </div>
-
-                <!-- Question Card 2 -->
-                <div class="executive-card rounded-xl p-6 space-y-3 reveal">
-                    <span class="font-mono text-xs text-arlo-gold">02 / PRECIFICAÇÃO</span>
-                    <h3 class="text-base sm:text-lg font-medium text-white leading-snug">
-                        "Se reajustarmos nosso preço em 5% ou reduzirmos o desconto máximo, qual o impacto no lucro final?"
-                    </h3>
-                    <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">
-                        Modelamos cenários baseados no seu histórico de vendas para que você altere preços com segurança matemática, não no escuro.
-                    </p>
-                </div>
-
-                <!-- Question Card 3 -->
-                <div class="executive-card rounded-xl p-6 space-y-3 reveal">
-                    <span class="font-mono text-xs text-arlo-gold">03 / DINÂMICA DE CAIXA</span>
-                    <h3 class="text-base sm:text-lg font-medium text-white leading-snug">
-                        "Por que a empresa teve lucro contábil no trimestre, mas o saldo em caixa diminuiu?"
-                    </h3>
-                    <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">
-                        Rastreamos onde o capital de giro está ficando retido: prazos desbalanceados, estoque parado ou inadimplência setorial.
-                    </p>
-                </div>
-
-                <!-- Question Card 4 -->
-                <div class="executive-card rounded-xl p-6 space-y-3 reveal">
-                    <span class="font-mono text-xs text-arlo-gold">04 / FORÇA COMERCIAL</span>
-                    <h3 class="text-base sm:text-lg font-medium text-white leading-snug">
-                        "Quais clientes ativos dão sinais silenciosos de que vão reduzir ou parar de comprar nos próximos 60 dias?"
-                    </h3>
-                    <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">
-                        Detectamos mudanças no padrão de frequência e tíquete médio antes que o cliente migre para a concorrência.
-                    </p>
-                </div>
-
-                <!-- Question Card 5 -->
-                <div class="executive-card rounded-xl p-6 space-y-3 reveal">
-                    <span class="font-mono text-xs text-arlo-gold">05 / EFICIÊNCIA OPERACIONAL</span>
-                    <h3 class="text-base sm:text-lg font-medium text-white leading-snug">
-                        "Onde estão os gargalos operacionais que encarecem nossa entrega sem agregar valor ao cliente?"
-                    </h3>
-                    <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">
-                        Cruzamos tempos de execução, retrabalho e custos fixos por centro de custo para encontrar folgas de capacidade.
-                    </p>
-                </div>
-
-                <!-- Question Card 6 -->
-                <div class="executive-card rounded-xl p-6 space-y-3 reveal">
-                    <span class="font-mono text-xs text-arlo-gold">06 / EXPANSÃO SEGURA</span>
-                    <h3 class="text-base sm:text-lg font-medium text-white leading-snug">
-                        "Qual perfil de cliente tem o menor custo de aquisição e o maior valor deixado ao longo do tempo?"
-                    </h3>
-                    <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">
-                        Direcionamos o investimento comercial e de marketing exatamente para o segmento que multiplica o retorno da empresa.
-                    </p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ==========================================
-         SECTION 4: METODOLOGIA / COMO TRABALHAMOS (#metodologia)
-    =========================================== -->
-    <section id="metodologia" class="py-24 lg:py-32 border-t border-white/[0.06] relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="max-w-3xl space-y-4 reveal">
-                <div class="inline-flex items-center gap-2">
-                    <span class="w-6 h-[1px] bg-arlo-gold"></span>
-                    <span class="font-mono text-xs uppercase tracking-[0.25em] text-arlo-gold">Como Trabalhamos</span>
-                </div>
-                <h2 class="text-3xl sm:text-4xl font-light text-white tracking-tight leading-snug">
-                    Um processo fluido, confidencial e <span class="font-serif italic text-arlo-gold">sem sobrecarregar sua equipe.</span>
-                </h2>
-                <p class="text-gray-400 text-base sm:text-lg font-light">
-                    Você não precisa ter "dados perfeitos" nem parar sua operação para começar. Nós assumimos o trabalho pesado de estruturação e entregamos a inteligência pronta para uso.
-                </p>
-            </div>
-
-            <!-- 4 Steps Horizontal Timeline -->
-            <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <!-- Step 1 -->
-                <div class="executive-card rounded-2xl p-7 relative reveal">
-                    <div class="flex items-center justify-between mb-6">
-                        <span class="font-logo text-2xl text-arlo-gold">01</span>
-                        <span class="font-mono text-[11px] uppercase tracking-wider text-gray-500">Alinhamento</span>
-                    </div>
-                    <h3 class="text-lg font-semibold text-white mb-2.5">Entendimento do Momento</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">
-                        Conversamos diretamente com os sócios ou diretores para mapear as dores prioritárias, metas do negócio e as perguntas críticas que precisam de resposta.
-                    </p>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="executive-card rounded-2xl p-7 relative reveal">
-                    <div class="flex items-center justify-between mb-6">
-                        <span class="font-logo text-2xl text-arlo-gold">02</span>
-                        <span class="font-mono text-[11px] uppercase tracking-wider text-gray-500">Coleta Limpa</span>
-                    </div>
-                    <h3 class="text-lg font-semibold text-white mb-2.5">Organização dos Dados</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">
-                        Conectamos ou extraímos as informações que sua empresa já possui (ERP, CRM, extratos ou planilhas internas) sob sigilo absoluto (NDA), higienizando inconsistências.
-                    </p>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="executive-card rounded-2xl p-7 relative reveal">
-                    <div class="flex items-center justify-between mb-6">
-                        <span class="font-logo text-2xl text-arlo-gold">03</span>
-                        <span class="font-mono text-[11px] uppercase tracking-wider text-gray-500">Laboratório ARLO</span>
-                    </div>
-                    <h3 class="text-lg font-semibold text-white mb-2.5">Cruzamento & Modelagem</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">
-                        Aplicamos engenharia analítica e visão de negócios para cruzar variáveis financeiras, operacionais e comerciais, revelando padrões invisíveis no dia a dia.
-                    </p>
-                </div>
-
-                <!-- Step 4 -->
-                <div class="executive-card rounded-2xl p-7 relative reveal">
-                    <div class="flex items-center justify-between mb-6">
-                        <span class="font-logo text-2xl text-arlo-gold">04</span>
-                        <span class="font-mono text-[11px] uppercase tracking-wider text-gray-500">Decisão</span>
-                    </div>
-                    <h3 class="text-lg font-semibold text-white mb-2.5">Entrega Executiva & Plano</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed">
-                        Entregamos diagnósticos objetivos, painéis contínuos de acompanhamento e recomendações práticas para execução imediata pela gestão.
-                    </p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ==========================================
-          SECTION: QUEM SOMOS (#quem-somos)
-    =========================================== -->
-    <section id="quem-somos" class="py-24 lg:py-32 border-t border-white/[0.06] bg-arlo-surface/20 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <!-- Section Header -->
-            <div class="max-w-3xl space-y-4 reveal">
-                <div class="inline-flex items-center gap-2">
-                    <span class="w-6 h-[1px] bg-arlo-gold"></span>
-                    <span class="font-mono text-xs uppercase tracking-[0.25em] text-arlo-gold">Liderança & Rigor Analítico</span>
-                </div>
-                <h2 class="text-3xl sm:text-4xl font-light text-white tracking-tight leading-snug">
-                    A precisão dos métodos analíticos a serviço da <span class="font-serif italic text-arlo-gold">decisão do empresário.</span>
-                </h2>
-                <p class="text-gray-400 text-base sm:text-lg font-light leading-relaxed">
-                    A ARLO Intelligence nasce da convicção de que empresas não precisam de mais relatórios confusos, mas de capacidade analítica profunda aplicada diretamente ao lucro e à eficiência operacional.
-                </p>
-            </div>
-
-            <!-- Content Grid: Perfil + Pilares -->
-            <div class="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
-                
-                <!-- Coluna Esquerda: Cartão do Fundador / Liderança -->
-                <div class="lg:col-span-5 executive-card rounded-2xl p-8 flex flex-col justify-between border border-white/[0.08] relative">
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-4">
-                            <div class="w-16 h-16 rounded-xl bg-arlo-gold/10 border border-arlo-gold/30 flex items-center justify-center text-arlo-gold font-logo text-xl">
-                                AL
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-white">Astolfo Rezende Lameu</h3>
-                                <p class="font-mono text-xs text-arlo-gold uppercase tracking-wider mt-0.5">Liderança em Inteligência & Estratégia</p>
-                            </div>
-                        </div>
-
-                        <p class="text-sm text-gray-300 leading-relaxed font-light">
-                            Formação em Economia com ênfase em métodos quantitativos, econometria e análise de séries temporais. Atuação voltada a planejamento financeiro, controle de desvios orçamentários e desenho de arquiteturas de dados executivas para suporte a decisões de alto impacto.
+                        <!-- Executive Subheadline (18px-20px, 1.65 line-height, high-contrast slate) -->
+                        <p class="text-lg sm:text-xl text-arlo-textSecondary font-normal leading-[1.65] max-w-2xl">
+                            Toda operação acumula anos de registros financeiros, comerciais e operacionais subutilizados em planilhas e sistemas. A <strong class="text-arlo-textPrimary font-semibold">ARLO Intelligence</strong> transforma esse histórico bruto em clareza executiva para proteger margens, corrigir rotas e direcionar o crescimento.
                         </p>
 
-                        <div class="pt-4 border-t border-white/[0.07] space-y-2.5 text-xs text-gray-400">
-                            <div class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold"></span>
-                                <span>Modelagem financeira e proteção de margem de contribuição</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold"></span>
-                                <span>Governança de métricas de vendas, retenção e expansão de carteira</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold"></span>
-                                <span>Integração de dados com foco em velocidade para a diretoria</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pt-6 mt-6 border-t border-white/[0.06] flex items-center justify-between">
-                        <span class="font-mono text-[11px] text-gray-500 uppercase tracking-wider">Atendimento Consultivo Direto</span>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="text-xs font-medium text-arlo-gold hover:underline flex items-center gap-1.5">
-                            LinkedIn ↗
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Coluna Direita: Os 3 Princípios de Atuação -->
-                <div class="lg:col-span-7 flex flex-col justify-between gap-6">
-                    
-                    <div class="executive-card rounded-xl p-6 border border-white/[0.07] space-y-2">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-arlo-gold/10 border border-arlo-gold/20 flex items-center justify-center text-arlo-gold text-xs font-mono font-bold">01</div>
-                            <h4 class="text-base font-medium text-white">Sigilo Absoluto e Governança de Dados</h4>
-                        </div>
-                        <p class="text-xs sm:text-sm text-gray-400 leading-relaxed pl-11">
-                            Seus registros de faturamento, custos e clientes são tratados sob acordos formais de confidencialidade (NDA). Os dados permanecem sob total governança e propriedade da sua empresa, em estrita conformidade com a LGPD.
-                        </p>
-                    </div>
-
-                    <div class="executive-card rounded-xl p-6 border border-white/[0.07] space-y-2">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-arlo-gold/10 border border-arlo-gold/20 flex items-center justify-center text-arlo-gold text-xs font-mono font-bold">02</div>
-                            <h4 class="text-base font-medium text-white">Pragmatismo Econômico sobre Complexidade Estética</h4>
-                        </div>
-                        <p class="text-xs sm:text-sm text-gray-400 leading-relaxed pl-11">
-                            Não criamos gráficos apenas para visualização. Cada análise tem como objetivo único responder onde sua empresa perde rentabilidade, onde existe capital de giro retido e quais alavancas geram mais Ebitda.
-                        </p>
-                    </div>
-
-                    <div class="executive-card rounded-xl p-6 border border-white/[0.07] space-y-2">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-arlo-gold/10 border border-arlo-gold/20 flex items-center justify-center text-arlo-gold text-xs font-mono font-bold">03</div>
-                            <h4 class="text-base font-medium text-white">Modelo Boutique: Sem Intermediários</h4>
-                        </div>
-                        <p class="text-xs sm:text-sm text-gray-400 leading-relaxed pl-11">
-                            O empresário e sua diretoria conversam diretamente com os especialistas analíticos responsáveis pela arquitetura e auditoria dos modelos, garantindo alinhamento executivo ágil e sem ruídos operacionais.
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <!-- ==========================================
-         SECTION 5: INICIAR CONVERSA / CONTATO (#contato)
-         (Focado em iniciar diálogo executivo, sem forçar agendamento direto)
-    =========================================== -->
-    <section id="contato" class="py-24 lg:py-32 border-t border-white/[0.06] bg-architectural-grid relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-                
-                <!-- Left Column: Direct Executive Context -->
-                <div class="lg:col-span-5 space-y-8 reveal">
-                    <div class="space-y-4">
-                        <div class="inline-flex items-center gap-2">
-                            <span class="w-6 h-[1px] bg-arlo-gold"></span>
-                            <span class="font-mono text-xs uppercase tracking-[0.25em] text-arlo-gold">Contato Direto</span>
-                        </div>
-                        <h2 class="text-3xl sm:text-4xl font-light text-white tracking-tight leading-snug">
-                            Vamos conversar sobre o momento da <span class="font-serif italic text-arlo-gold">sua empresa.</span>
-                        </h2>
-                        <p class="text-gray-400 text-base font-light leading-relaxed">
-                            Sem apresentações engessadas ou jargões técnicos. Conte-nos brevemente qual área do seu negócio pede mais clareza hoje e retornaremos para uma conversa inicial.
-                        </p>
-                    </div>
-
-                    <!-- What happens after contact -->
-                    <div class="executive-card rounded-xl p-6 space-y-4">
-                        <h3 class="text-xs font-mono uppercase tracking-widest text-arlo-gold">Como funciona nosso primeiro contato</h3>
-                        <ul class="space-y-3 text-sm text-gray-300">
-                            <li class="flex items-start gap-3">
-                                <span class="font-mono text-xs text-arlo-gold mt-0.5">01.</span>
-                                <span>Você nos envia uma mensagem pelo formulário ao lado ou diretamente pelo nosso canal executivo.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="font-mono text-xs text-arlo-gold mt-0.5">02.</span>
-                                <span>Retornamos rapidamente por WhatsApp ou E-mail para entender o contexto da sua empresa.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <span class="font-mono text-xs text-arlo-gold mt-0.5">03.</span>
-                                <span>Indicamos com transparência como os dados que você já tem podem responder ao seu desafio atual.</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Direct Contact Channels -->
-                    <div class="space-y-4 pt-2">
-                        <p class="font-mono text-xs uppercase tracking-widest text-gray-400">Canais Diretos ARLO Intelligence</p>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
-                            <a href="mailto:arlointelligence@gmail.com" class="flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.07] hover:border-arlo-gold/40 transition-colors group">
-                                <div class="w-10 h-10 rounded-lg bg-arlo-gold/10 flex items-center justify-center text-arlo-gold">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <span class="block text-xs text-gray-400">E-mail Corporativo</span>
-                                    <span class="text-sm font-medium text-white group-hover:text-arlo-gold transition-colors">arlointelligence@gmail.com</span>
-                                </div>
-                            </a>
-                            <a href="https://www.instagram.com/arlointelligence/?utm_source=ig_web_button_share_sheet" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.07] hover:border-arlo-gold/40 transition-colors group">
-                                <div class="w-10 h-10 rounded-lg bg-arlo-gold/10 flex items-center justify-center text-arlo-gold">
-                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <span class="block text-xs text-gray-400">Instagram Oficial</span>
-                                    <span class="text-sm font-medium text-white group-hover:text-arlo-gold transition-colors">@arlointelligence</span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Interactive Contact Form -->
-                <div class="lg:col-span-7 reveal">
-                    <div class="executive-card rounded-2xl p-6 sm:p-10 arlo-double-frame">
-                        <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-6">
-                            
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="nome" class="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-2">Seu Nome *</label>
-                                    <input type="text" id="nome" required placeholder="Ex: Roberto Almeida" 
-                                        class="w-full px-4 py-3.5 rounded-xl bg-arlo-bg border border-white/10 text-white placeholder-gray-600 text-sm focus:outline-none focus:border-arlo-gold transition-colors">
-                                </div>
-                                <div>
-                                    <label for="empresa" class="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-2">Empresa & Cargo *</label>
-                                    <input type="text" id="empresa" required placeholder="Ex: Diretor / Sócio na Empresa X" 
-                                        class="w-full px-4 py-3.5 rounded-xl bg-arlo-bg border border-white/10 text-white placeholder-gray-600 text-sm focus:outline-none focus:border-arlo-gold transition-colors">
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="contato-retorno" class="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-2">WhatsApp ou E-mail para Retorno *</label>
-                                    <input type="text" id="contato-retorno" required placeholder="(11) 99999-9999 ou seu@email.com" 
-                                        class="w-full px-4 py-3.5 rounded-xl bg-arlo-bg border border-white/10 text-white placeholder-gray-600 text-sm focus:outline-none focus:border-arlo-gold transition-colors">
-                                </div>
-                                <div>
-                                    <label for="segmento" class="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-2">Porte / Segmento da Empresa</label>
-                                    <select id="segmento" class="w-full px-4 py-3.5 rounded-xl bg-arlo-bg border border-white/10 text-gray-200 text-sm focus:outline-none focus:border-arlo-gold transition-colors">
-                                        <option value="Indústria / Distribuição">Indústria ou Distribuição</option>
-                                        <option value="Serviços B2B">Serviços B2B / Consultoria</option>
-                                        <option value="Comércio / Varejo">Comércio ou Redes</option>
-                                        <option value="Tecnologia / Saúde / Outros">Tecnologia, Saúde ou Outros</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Selectable Topic Chips -->
-                            <div>
-                                <label class="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-3">Qual tema mais interessa no momento?</label>
-                                <div class="flex flex-wrap gap-2.5" id="topic-chips">
-                                    <button type="button" onclick="toggleChip(this)" data-topic="Margem & Financeiro" class="topic-chip selected px-3.5 py-2 rounded-lg text-xs font-medium border border-arlo-gold bg-arlo-gold/15 text-arlo-gold transition-all">
-                                        Entender Margens & Lucro Real
-                                    </button>
-                                    <button type="button" onclick="toggleChip(this)" data-topic="Dashboards & Indicadores" class="topic-chip px-3.5 py-2 rounded-lg text-xs font-medium border border-white/10 bg-white/[0.02] text-gray-300 hover:border-white/30 transition-all">
-                                        Organizar Indicadores / Painel Executivo
-                                    </button>
-                                    <button type="button" onclick="toggleChip(this)" data-topic="Inteligência Comercial" class="topic-chip px-3.5 py-2 rounded-lg text-xs font-medium border border-white/10 bg-white/[0.02] text-gray-300 hover:border-white/30 transition-all">
-                                        Eficiência Comercial & Clientes
-                                    </button>
-                                    <button type="button" onclick="toggleChip(this)" data-topic="Diagnóstico Geral" class="topic-chip px-3.5 py-2 rounded-lg text-xs font-medium border border-white/10 bg-white/[0.02] text-gray-300 hover:border-white/30 transition-all">
-                                        Quero um Diagnóstico Inicial
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label for="mensagem" class="block text-xs font-mono uppercase tracking-wider text-gray-300 mb-2">Contexto Breve (Opcional)</label>
-                                <textarea id="mensagem" rows="3" placeholder="Conte-nos em poucas linhas o que você gostaria de enxergar com mais clareza na sua empresa..." 
-                                    class="w-full px-4 py-3.5 rounded-xl bg-arlo-bg border border-white/10 text-white placeholder-gray-600 text-sm focus:outline-none focus:border-arlo-gold transition-colors"></textarea>
-                            </div>
-
-                            <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
-                                <p class="text-xs text-gray-400 flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-arlo-gold shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                                    </svg>
-                                    <span>Suas informações são tratadas com sigilo executivo.</span>
-                                </p>
-                                <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-arlo-gold text-arlo-bg font-semibold text-sm tracking-wide hover:bg-yellow-400 transition-all shadow-[0_0_25px_rgba(245,197,24,0.25)]">
-                                    <span>Enviar Mensagem para a ARLO</span>
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </form>
-
-                        <!-- Interactive Confirmation Feedback State (Hidden Initially) -->
-                        <div id="contact-success" class="hidden py-8 text-center space-y-6">
-                            <div class="w-14 h-14 rounded-full bg-arlo-gold/15 border border-arlo-gold/40 flex items-center justify-center mx-auto text-arlo-gold">
-                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+                            <a href="#contato" class="btn-primary-gold inline-flex items-center justify-center gap-3 px-7 py-4 rounded-arlo-md font-semibold text-base tracking-wide">
+                                <span>Conversar Sobre Minha Empresa</span>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                                 </svg>
+                            </a>
+                            <a href="#exemplos" class="btn-secondary-ghost inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-arlo-md font-medium text-base">
+                                <span>Ver Exemplos na Prática</span>
+                                <svg class="w-4 h-4 text-arlo-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </a>
+                        </div>
+
+                        <!-- Subtle Reassurance Pillars (Upgraded readability & architectural left-border) -->
+                        <div class="pt-8 border-t border-arlo-border grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-6 max-w-2xl">
+                            <div class="border-l-2 border-arlo-borderGold pl-4">
+                                <p class="font-mono text-xs text-arlo-gold uppercase tracking-[0.14em] font-medium">Sem Troca de ERP</p>
+                                <p class="text-sm sm:text-[15px] text-arlo-textSecondary mt-1.5 leading-relaxed">Trabalhamos sobre a estrutura que você já utiliza.</p>
                             </div>
-                            <div class="space-y-2 max-w-md mx-auto">
-                                <span class="font-mono text-xs uppercase tracking-widest text-arlo-gold">Solicitação Preparada</span>
-                                <h3 class="text-2xl font-light text-white">Obrigado pelo interesse na ARLO Intelligence.</h3>
-                                <p id="success-summary" class="text-sm text-gray-400 leading-relaxed"></p>
+                            <div class="border-l-2 border-arlo-borderGold pl-4">
+                                <p class="font-mono text-xs text-arlo-gold uppercase tracking-[0.14em] font-medium">Foco no Dono</p>
+                                <p class="text-sm sm:text-[15px] text-arlo-textSecondary mt-1.5 leading-relaxed">Visão direta de lucro, caixa e eficiência comercial.</p>
                             </div>
-                            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-                                <a id="mailto-trigger" href="#" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-arlo-gold text-arlo-bg font-semibold text-xs uppercase tracking-wider hover:bg-yellow-400 transition-all">
-                                    <span>Enviar por E-mail Agora</span>
+                            <div class="border-l-2 border-arlo-borderGold pl-4">
+                                <p class="font-mono text-xs text-arlo-gold uppercase tracking-[0.14em] font-medium">Zero Poluição</p>
+                                <p class="text-sm sm:text-[15px] text-arlo-textSecondary mt-1.5 leading-relaxed">Respostas acionáveis em vez de relatórios confusos.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Architectural "Data-to-Clarity" Interactive Visual Card -->
+                    <div class="lg:col-span-5 reveal visible px-1 sm:px-2 lg:px-0">
+                        <div class="executive-panel p-6 sm:p-8 relative arlo-double-frame">
+                            <!-- Top Card Header -->
+                            <div class="flex flex-wrap items-center justify-between gap-2 pb-5 mb-6 border-b border-arlo-border">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-arlo-gold"></div>
+                                    <span class="font-mono text-xs uppercase tracking-[0.16em] text-arlo-textPrimary font-medium">Arquitetura de Decisão ARLO</span>
+                                </div>
+                                <span class="font-mono text-[11px] text-arlo-gold bg-arlo-goldSoft px-2.5 py-1 rounded-arlo-sm border border-arlo-borderGold font-medium">Visão Executiva</span>
+                            </div>
+
+                            <!-- Step 1: Dispersed Raw Data -->
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between text-xs text-arlo-textMuted">
+                                    <span class="font-mono uppercase tracking-[0.14em] font-medium">1. Dados Já Existentes na Empresa</span>
+                                    <span class="font-mono text-[11px] uppercase tracking-wider">Dispersos</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2.5">
+                                    <div class="bg-arlo-bg/80 border border-arlo-border rounded-arlo-md p-3 text-center">
+                                        <span class="block font-mono text-[11px] text-arlo-textMuted">ERP & Fiscal</span>
+                                        <span class="block text-xs sm:text-sm text-arlo-textPrimary font-medium mt-1">Faturamento</span>
+                                    </div>
+                                    <div class="bg-arlo-bg/80 border border-arlo-border rounded-arlo-md p-3 text-center">
+                                        <span class="block font-mono text-[11px] text-arlo-textMuted">Planilhas</span>
+                                        <span class="block text-xs sm:text-sm text-arlo-textPrimary font-medium mt-1">Custos & Frete</span>
+                                    </div>
+                                    <div class="bg-arlo-bg/80 border border-arlo-border rounded-arlo-md p-3 text-center">
+                                        <span class="block font-mono text-[11px] text-arlo-textMuted">Comercial</span>
+                                        <span class="block text-xs sm:text-sm text-arlo-textPrimary font-medium mt-1">Descontos</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Animated Funnel Connector -->
+                            <div class="my-5 flex flex-col items-center">
+                                <svg class="w-full h-12" viewBox="0 0 300 45" fill="none" aria-hidden="true">
+                                    <path d="M50 2 C50 22, 150 18, 150 42" stroke="rgba(229,184,34,0.38)" stroke-width="1.5" class="data-flow-line"/>
+                                    <path d="M150 2 L150 42" stroke="rgba(229,184,34,0.65)" stroke-width="1.5" class="data-flow-line"/>
+                                    <path d="M250 2 C250 22, 150 18, 150 42" stroke="rgba(229,184,34,0.38)" stroke-width="1.5" class="data-flow-line"/>
+                                    <circle cx="150" cy="22" r="12" fill="#101218" stroke="#E5B822" stroke-width="1.5"/>
+                                    <circle cx="150" cy="22" r="4" fill="#E5B822"/>
+                                </svg>
+                                <span class="font-mono text-[11px] uppercase tracking-[0.22em] text-arlo-gold font-medium mt-0.5">Refinamento & Cruzamento ARLO</span>
+                            </div>
+
+                            <!-- Step 2: The Executive Answer Box -->
+                            <div class="bg-arlo-bg/95 border border-arlo-borderGold rounded-arlo-md p-5 space-y-4">
+                                <div class="flex flex-wrap items-start justify-between gap-3">
+                                    <div>
+                                        <span class="font-mono text-[11px] uppercase tracking-[0.16em] text-arlo-gold block font-medium">Diagnóstico Revelado</span>
+                                        <h2 class="text-base sm:text-lg font-semibold text-arlo-textPrimary mt-1">Rentabilidade Real por Linha & Cliente</h2>
+                                    </div>
+                                    <span class="font-mono text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 px-2.5 py-1 rounded-arlo-sm font-medium">
+                                        +4,8 p.p. Margem
+                                    </span>
+                                </div>
+
+                                <!-- Mini Visual Comparison Bars -->
+                                <div class="space-y-3 pt-1">
+                                    <div>
+                                        <div class="flex justify-between text-xs sm:text-sm mb-1.5">
+                                            <span class="text-arlo-textSecondary">Margem de Contribuição Antes</span>
+                                            <span class="font-mono text-arlo-textPrimary font-medium">14,2%</span>
+                                        </div>
+                                        <div class="w-full h-2 bg-white/[0.07] rounded-full overflow-hidden">
+                                            <div class="h-full bg-slate-500 rounded-full" style="width: 45%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-xs sm:text-sm mb-1.5">
+                                            <span class="text-arlo-textPrimary font-medium">Margem de Contribuição Pós-ARLO</span>
+                                            <span class="font-mono text-arlo-gold font-semibold">19,0%</span>
+                                        </div>
+                                        <div class="w-full h-2 bg-white/[0.07] rounded-full overflow-hidden">
+                                            <div class="h-full bg-arlo-gold rounded-full" style="width: 68%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="text-sm text-arlo-textSecondary leading-relaxed pt-3 border-t border-arlo-border">
+                                    Identificação de 21,4% do volume comercial que operava com margem de contribuição negativa oculta.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SECTION 1: O QUE FAZEMOS (#solucoes)
+        =========================================== -->
+        <section id="solucoes" class="py-24 lg:py-36 border-t border-arlo-border bg-arlo-surface/35 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header -->
+                <div class="max-w-3xl space-y-4 reveal">
+                    <div class="inline-flex items-center gap-3">
+                        <span class="w-8 h-[1px] bg-arlo-gold"></span>
+                        <span class="font-mono text-xs uppercase tracking-[0.22em] text-arlo-gold font-medium">O Que Fazemos</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-light text-arlo-textPrimary tracking-[-0.02em] leading-[1.18]">
+                        Três frentes de inteligência desenhadas para <span class="font-serif italic font-normal text-arlo-gold">quem toma decisões.</span>
+                    </h2>
+                    <p class="text-arlo-textSecondary text-base sm:text-lg font-normal leading-[1.65] pt-1">
+                        Não entregamos apenas gráficos bonitos. Estruturamos análises profundas que respondem onde sua empresa ganha dinheiro, onde perde eficiência e para onde deve crescer.
+                    </p>
+                </div>
+
+                <!-- 3 Pillars Grid -->
+                <div class="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Pillar 1 -->
+                    <article class="executive-card p-7 sm:p-9 flex flex-col justify-between reveal">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 rounded-arlo-md bg-arlo-goldSoft border border-arlo-borderGold flex items-center justify-center text-arlo-gold">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                    </svg>
+                                </div>
+                                <span class="font-mono text-xs text-arlo-gold uppercase tracking-[0.18em] font-medium">01 / Rentabilidade</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl sm:text-[1.35rem] font-semibold text-arlo-textPrimary leading-snug">Inteligência Financeira & Margem</h3>
+                            </div>
+                            <p class="text-arlo-textSecondary text-base leading-[1.65]">
+                                Muitas empresas faturam bem, mas não sabem exatamente onde o lucro líquido escoa. Cruzamos custos diretos, impostos, comissões, prazos e logística para revelar a margem real de cada operação.
+                            </p>
+                            <ul class="space-y-3 pt-4 border-t border-arlo-border text-sm sm:text-[15px] text-arlo-textPrimary">
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold mt-2 shrink-0"></span>
+                                    <span>Lucratividade real por produto (SKU), serviço ou cliente</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold mt-2 shrink-0"></span>
+                                    <span>Simulação de precificação e elasticidade de descontos</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold mt-2 shrink-0"></span>
+                                    <span>Diagnóstico de ciclo de caixa e capital de giro retido</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="pt-7 mt-8 border-t border-arlo-border flex items-center justify-between gap-2">
+                            <span class="font-mono text-xs text-arlo-textMuted">Impacto: Ebitda & Caixa</span>
+                            <a href="#exemplos" onclick="selectScenario(0)" class="inline-flex items-center gap-1.5 text-sm font-semibold text-arlo-gold hover:text-arlo-goldHover transition-colors">
+                                <span>Ver exemplo</span>
+                                <span aria-hidden="true">→</span>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Pillar 2 -->
+                    <article class="executive-card p-7 sm:p-9 flex flex-col justify-between reveal">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 rounded-arlo-md bg-arlo-goldSoft border border-arlo-borderGold flex items-center justify-center text-arlo-gold">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                    </svg>
+                                </div>
+                                <span class="font-mono text-xs text-arlo-gold uppercase tracking-[0.18em] font-medium">02 / Crescimento</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl sm:text-[1.35rem] font-semibold text-arlo-textPrimary leading-snug">Inteligência Comercial & Mercado</h3>
+                            </div>
+                            <p class="text-arlo-textSecondary text-base leading-[1.65]">
+                                Para onde expandir a equipe de vendas? Quais clientes estão prestes a parar de comprar? Usamos a estatística da sua carteira combinada a dados de mercado para direcionar o esforço comercial.
+                            </p>
+                            <ul class="space-y-3 pt-4 border-t border-arlo-border text-sm sm:text-[15px] text-arlo-textPrimary">
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold mt-2 shrink-0"></span>
+                                    <span>Diagnóstico de retenção, recorrência e risco de perda (Churn)</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold mt-2 shrink-0"></span>
+                                    <span>Identificação de oportunidades de venda cruzada (Cross-sell)</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold mt-2 shrink-0"></span>
+                                    <span>Mapeamento de potencial regional e eficiência de vendedores</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="pt-7 mt-8 border-t border-arlo-border flex items-center justify-between gap-2">
+                            <span class="font-mono text-xs text-arlo-textMuted">Impacto: Receita & Expansão</span>
+                            <a href="#exemplos" onclick="selectScenario(1)" class="inline-flex items-center gap-1.5 text-sm font-semibold text-arlo-gold hover:text-arlo-goldHover transition-colors">
+                                <span>Ver exemplo</span>
+                                <span aria-hidden="true">→</span>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Pillar 3 -->
+                    <article class="executive-card p-7 sm:p-9 flex flex-col justify-between reveal">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 rounded-arlo-md bg-arlo-goldSoft border border-arlo-borderGold flex items-center justify-center text-arlo-gold">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                                    </svg>
+                                </div>
+                                <span class="font-mono text-xs text-arlo-gold uppercase tracking-[0.18em] font-medium">03 / Gestão & Clareza</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl sm:text-[1.35rem] font-semibold text-arlo-textPrimary leading-snug">Performance Operacional & Executiva</h3>
+                            </div>
+                            <p class="text-arlo-textSecondary text-base leading-[1.65]">
+                                Eliminamos o trabalho manual de consolidar dezenas de planilhas toda semana. Criamos uma fonte única de verdade com painéis executivos limpos, desenhados para leitura rápida da diretoria.
+                            </p>
+                            <ul class="space-y-3 pt-4 border-t border-arlo-border text-sm sm:text-[15px] text-arlo-textPrimary">
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold mt-2 shrink-0"></span>
+                                    <span>Painéis executivos sem poluição visual (KPIs críticos)</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold mt-2 shrink-0"></span>
+                                    <span>Integração automática entre ERP, CRM e planilhas</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold mt-2 shrink-0"></span>
+                                    <span>Acompanhamento de metas, orçamento e produtividade</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="pt-7 mt-8 border-t border-arlo-border flex items-center justify-between gap-2">
+                            <span class="font-mono text-xs text-arlo-textMuted">Impacto: Tempo & Controle</span>
+                            <a href="#exemplos" onclick="selectScenario(2)" class="inline-flex items-center gap-1.5 text-sm font-semibold text-arlo-gold hover:text-arlo-goldHover transition-colors">
+                                <span>Ver exemplo</span>
+                                <span aria-hidden="true">→</span>
+                            </a>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SECTION 2: NA PRÁTICA — SIMULADOR DE CENÁRIOS (#exemplos)
+        =========================================== -->
+        <section id="exemplos" class="py-24 lg:py-36 border-t border-arlo-border relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Header + Scenario Tabs -->
+                <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 reveal">
+                    <div class="max-w-2xl space-y-4">
+                        <div class="inline-flex items-center gap-3">
+                            <span class="w-8 h-[1px] bg-arlo-gold"></span>
+                            <span class="font-mono text-xs uppercase tracking-[0.22em] text-arlo-gold font-medium">Na Prática</span>
+                        </div>
+                        <h2 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-light text-arlo-textPrimary tracking-[-0.02em] leading-[1.18]">
+                            Como dados comuns se transformam em <span class="font-serif italic font-normal text-arlo-gold">decisões de alto impacto.</span>
+                        </h2>
+                        <p class="text-arlo-textSecondary text-base sm:text-lg font-normal leading-[1.65] pt-1">
+                            Selecione um cenário abaixo para visualizar como a ARLO analisa os dados que uma empresa já possui e encontra respostas financeiras e operacionais ocultas.
+                        </p>
+                    </div>
+
+                    <!-- Interactive Scenario Selector Buttons -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 lg:flex gap-2 bg-arlo-surface p-1.5 rounded-arlo-lg border border-arlo-border w-full lg:w-auto" role="tablist" aria-label="Cenários Práticos ARLO">
+                        <button onclick="selectScenario(0)" id="tab-btn-0" role="tab" aria-selected="true" class="scenario-tab px-4 py-3 rounded-arlo-md text-xs sm:text-sm font-semibold transition-all bg-arlo-gold text-arlo-bg shadow-arlo-cta text-center">
+                            1. Vazamento de Margem
+                        </button>
+                        <button onclick="selectScenario(1)" id="tab-btn-1" role="tab" aria-selected="false" class="scenario-tab px-4 py-3 rounded-arlo-md text-xs sm:text-sm font-medium transition-all text-arlo-textSecondary hover:text-arlo-textPrimary hover:bg-white/[0.04] text-center">
+                            2. Eficiência Comercial
+                        </button>
+                        <button onclick="selectScenario(2)" id="tab-btn-2" role="tab" aria-selected="false" class="scenario-tab px-4 py-3 rounded-arlo-md text-xs sm:text-sm font-medium transition-all text-arlo-textSecondary hover:text-arlo-textPrimary hover:bg-white/[0.04] text-center">
+                            3. Previsibilidade de Caixa
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Interactive Scenario Showcase Container -->
+                <div class="mt-12 executive-panel p-6 sm:p-10 reveal">
+                    
+                    <!-- Top Scenario Meta Bar -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-arlo-border">
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                            <span id="scenario-badge" class="font-mono text-xs uppercase tracking-[0.14em] px-3 py-1.5 rounded-arlo-sm bg-arlo-goldSoft text-arlo-gold border border-arlo-borderGold font-medium self-start">
+                                Cenário 01 • Indústria & Distribuição B2B
+                            </span>
+                            <h3 id="scenario-title" class="text-xl sm:text-2xl font-semibold text-arlo-textPrimary leading-snug">
+                                Faturamento em alta, mas geração de caixa estagnada
+                            </h3>
+                        </div>
+                        <span class="font-mono text-xs text-arlo-textMuted uppercase tracking-wider shrink-0">Simulação Demonstrativa ARLO</span>
+                    </div>
+
+                    <!-- 3-Step Transformation Columns -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+                        
+                        <!-- Step A: O Dado Existente -->
+                        <div class="bg-arlo-bg/70 border border-arlo-border rounded-arlo-md p-6 sm:p-7 space-y-4 flex flex-col justify-between">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-mono text-xs uppercase tracking-[0.14em] text-arlo-textMuted font-medium">A. O Dado que Já Existia</span>
+                                    <span class="w-7 h-7 rounded-full bg-white/[0.06] border border-arlo-border flex items-center justify-center font-mono text-xs text-arlo-textSecondary font-semibold">1</span>
+                                </div>
+                                <h4 id="scenario-raw-title" class="text-lg font-semibold text-arlo-textPrimary leading-snug">
+                                    Notas fiscais no ERP + Planilhas de Frete e Comissões
+                                </h4>
+                                <p id="scenario-raw-desc" class="text-base text-arlo-textSecondary leading-[1.65]">
+                                    A diretoria guiava as metas pela margem bruta de tabela (32,0%). Porém, descontos comerciais negociados caso a caso, frete fracionado por região e o custo financeiro do prazo de recebimento estavam dispersos em planilhas separadas.
+                                </p>
+                            </div>
+                            <div id="scenario-raw-tags" class="pt-4 border-t border-arlo-border flex flex-wrap gap-2">
+                                <span class="font-mono text-xs px-3 py-1 rounded-arlo-sm bg-white/[0.05] text-arlo-textPrimary border border-arlo-border">Histórico de Vendas</span>
+                                <span class="font-mono text-xs px-3 py-1 rounded-arlo-sm bg-white/[0.05] text-arlo-textPrimary border border-arlo-border">Tabela de Custos</span>
+                                <span class="font-mono text-xs px-3 py-1 rounded-arlo-sm bg-white/[0.05] text-arlo-textPrimary border border-arlo-border">Relatório de Fretes</span>
+                            </div>
+                        </div>
+
+                        <!-- Step B: O Diagnóstico ARLO -->
+                        <div class="bg-arlo-gold/[0.05] border border-arlo-borderGold rounded-arlo-md p-6 sm:p-7 space-y-4 flex flex-col justify-between relative">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-mono text-xs uppercase tracking-[0.14em] text-arlo-gold font-medium">B. O Cruzamento ARLO</span>
+                                    <span class="w-7 h-7 rounded-full bg-arlo-goldSoft border border-arlo-borderGold flex items-center justify-center font-mono text-xs text-arlo-gold font-semibold">2</span>
+                                </div>
+                                <h4 id="scenario-diag-title" class="text-lg font-semibold text-arlo-textPrimary leading-snug">
+                                    Mapeamento de Margem de Contribuição Real por Pedido
+                                </h4>
+                                <p id="scenario-diag-desc" class="text-base text-arlo-textSecondary leading-[1.65]">
+                                    Ao unificar as bases, a ARLO revelou que 21,4% do volume faturado em grandes contas deixava margem de contribuição negativa após deduzir o custo financeiro do prazo médio de 75 dias e o frete real.
+                                </p>
+                            </div>
+                            <div class="pt-4">
+                                <div class="p-3.5 rounded-arlo-md bg-arlo-bg/90 border border-arlo-borderGold flex flex-wrap items-center justify-between gap-2">
+                                    <span id="scenario-metric-label" class="text-xs sm:text-sm text-arlo-textSecondary">Faturamento com margem corroída:</span>
+                                    <span id="scenario-metric-val" class="font-mono text-sm font-semibold text-arlo-gold">21,4% do volume</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step C: A Decisão Executiva -->
+                        <div class="bg-arlo-bg/70 border border-arlo-border rounded-arlo-md p-6 sm:p-7 space-y-4 flex flex-col justify-between">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-mono text-xs uppercase tracking-[0.14em] text-emerald-400 font-medium">C. A Resposta & Ação</span>
+                                    <span class="w-7 h-7 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center font-mono text-xs text-emerald-400 font-semibold">3</span>
+                                </div>
+                                <h4 id="scenario-action-title" class="text-lg font-semibold text-arlo-textPrimary leading-snug">
+                                    Nova Política de Pedido Mínimo e Alçada de Desconto
+                                </h4>
+                                <p id="scenario-action-desc" class="text-base text-arlo-textSecondary leading-[1.65]">
+                                    Com a radiografia por SKU e cliente em mãos, a direção ajustou a política de comissionamento (de faturamento bruto para margem de contribuição) e renegociou 14 contratos críticos de logística e prazo sem perder volume estratégico.
+                                </p>
+                            </div>
+
+                            <!-- Visual Outcome Highlight -->
+                            <div class="pt-4 border-t border-arlo-border flex flex-wrap items-center justify-between gap-3">
+                                <div>
+                                    <span class="block text-xs font-mono uppercase tracking-wider text-arlo-textMuted">Resultado Prático</span>
+                                    <span id="scenario-result-highlight" class="text-lg sm:text-xl font-semibold text-emerald-400">+4,8 p.p. no Ebitda</span>
+                                </div>
+                                <a href="#contato" class="text-sm font-semibold text-arlo-gold hover:text-arlo-goldHover transition-colors inline-flex items-center gap-1.5">
+                                    <span>Avaliar na minha empresa</span>
+                                    <span aria-hidden="true">→</span>
                                 </a>
-                                <button onclick="copyFormattedMessage()" id="copy-msg-btn" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-gray-200 border border-white/10 text-xs uppercase font-mono tracking-wider transition-all">
-                                    <span>Copiar Resumo para WhatsApp</span>
-                                </button>
-                                <button onclick="resetContactForm()" class="text-xs text-gray-400 hover:text-white underline px-3 py-2">
-                                    Editar dados
-                                </button>
                             </div>
                         </div>
 
                     </div>
+
+                    <!-- Interactive Visual Bar Comparison Footer -->
+                    <div class="mt-8 pt-7 border-t border-arlo-border grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                        <div class="lg:col-span-4">
+                            <span class="font-mono text-xs uppercase tracking-[0.16em] text-arlo-gold font-medium block">Visualização Executiva Limpa</span>
+                            <p id="scenario-chart-caption" class="text-sm text-arlo-textSecondary mt-1.5 leading-relaxed">
+                                Comparativo entre a percepção anterior da diretoria e a radiografia real entregue pela ARLO.
+                            </p>
+                        </div>
+                        <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="bg-arlo-bg p-4 sm:p-5 rounded-arlo-md border border-arlo-border">
+                                <div class="flex justify-between items-baseline gap-2 text-xs sm:text-sm mb-2.5">
+                                    <span id="bar-1-label" class="text-arlo-textSecondary">Antes: Margem Real Pré-Ajuste (Oculta)</span>
+                                    <span id="bar-1-value" class="font-mono text-arlo-textPrimary font-semibold shrink-0">14,2%</span>
+                                </div>
+                                <div class="w-full h-2.5 bg-white/[0.07] rounded-full overflow-hidden">
+                                    <div id="bar-1-fill" class="h-full bg-slate-500 transition-all duration-500 rounded-full" style="width: 45%"></div>
+                                </div>
+                            </div>
+                            <div class="bg-arlo-bg p-4 sm:p-5 rounded-arlo-md border border-arlo-borderGold">
+                                <div class="flex justify-between items-baseline gap-2 text-xs sm:text-sm mb-2.5">
+                                    <span id="bar-2-label" class="text-arlo-textPrimary font-medium">Depois: Margem Real Pós-Ajuste ARLO</span>
+                                    <span id="bar-2-value" class="font-mono text-arlo-gold font-semibold shrink-0">19,0%</span>
+                                </div>
+                                <div class="w-full h-2.5 bg-white/[0.07] rounded-full overflow-hidden">
+                                    <div id="bar-2-fill" class="h-full bg-arlo-gold transition-all duration-500 rounded-full" style="width: 68%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SECTION 3: PERGUNTAS QUE RESPONDEMOS (#perguntas)
+        =========================================== -->
+        <section id="perguntas" class="py-24 lg:py-36 border-t border-arlo-border bg-arlo-surface/35">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="max-w-3xl space-y-4 reveal">
+                    <div class="inline-flex items-center gap-3">
+                        <span class="w-8 h-[1px] bg-arlo-gold"></span>
+                        <span class="font-mono text-xs uppercase tracking-[0.22em] text-arlo-gold font-medium">Clareza Estratégica</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-light text-arlo-textPrimary tracking-[-0.02em] leading-[1.18]">
+                        Perguntas que todo dono de empresa faz — <span class="font-serif italic font-normal text-arlo-gold">e que nós respondemos com precisão.</span>
+                    </h2>
+                    <p class="text-arlo-textSecondary text-base sm:text-lg font-normal leading-[1.65] pt-1">
+                        Se você já se fez alguma das perguntas abaixo em uma reunião de diretoria e não teve uma resposta confiável em menos de 5 minutos, sua empresa possui uma oportunidade clara com a ARLO.
+                    </p>
+                </div>
+
+                <!-- 6 Executive Questions Grid -->
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                    
+                    <!-- Question Card 1 -->
+                    <article class="executive-card p-7 sm:p-8 space-y-4 flex flex-col justify-between reveal">
+                        <div class="space-y-3.5">
+                            <span class="font-mono text-xs text-arlo-gold uppercase tracking-[0.16em] font-medium block">01 / LUCRO REAL</span>
+                            <h3 class="text-lg sm:text-xl font-semibold text-arlo-textPrimary leading-snug">
+                                "Quais clientes ou produtos realmente deixam lucro líquido após todos os custos ocultos?"
+                            </h3>
+                        </div>
+                        <p class="text-base text-arlo-textSecondary leading-[1.65] pt-2 border-t border-arlo-border">
+                            Identificamos exatamente quem financia o seu crescimento e quem apenas infla o faturamento consumindo estrutura.
+                        </p>
+                    </article>
+
+                    <!-- Question Card 2 -->
+                    <article class="executive-card p-7 sm:p-8 space-y-4 flex flex-col justify-between reveal">
+                        <div class="space-y-3.5">
+                            <span class="font-mono text-xs text-arlo-gold uppercase tracking-[0.16em] font-medium block">02 / PRECIFICAÇÃO</span>
+                            <h3 class="text-lg sm:text-xl font-semibold text-arlo-textPrimary leading-snug">
+                                "Se reajustarmos nosso preço em 5% ou reduzirmos o desconto máximo, qual o impacto no lucro final?"
+                            </h3>
+                        </div>
+                        <p class="text-base text-arlo-textSecondary leading-[1.65] pt-2 border-t border-arlo-border">
+                            Modelamos cenários baseados no seu histórico de vendas para que você altere preços com segurança matemática, não no escuro.
+                        </p>
+                    </article>
+
+                    <!-- Question Card 3 -->
+                    <article class="executive-card p-7 sm:p-8 space-y-4 flex flex-col justify-between reveal">
+                        <div class="space-y-3.5">
+                            <span class="font-mono text-xs text-arlo-gold uppercase tracking-[0.16em] font-medium block">03 / DINÂMICA DE CAIXA</span>
+                            <h3 class="text-lg sm:text-xl font-semibold text-arlo-textPrimary leading-snug">
+                                "Por que a empresa teve lucro contábil no trimestre, mas o saldo em caixa diminuiu?"
+                            </h3>
+                        </div>
+                        <p class="text-base text-arlo-textSecondary leading-[1.65] pt-2 border-t border-arlo-border">
+                            Rastreamos onde o capital de giro está ficando retido: prazos desbalanceados, estoque parado ou inadimplência setorial.
+                        </p>
+                    </article>
+
+                    <!-- Question Card 4 -->
+                    <article class="executive-card p-7 sm:p-8 space-y-4 flex flex-col justify-between reveal">
+                        <div class="space-y-3.5">
+                            <span class="font-mono text-xs text-arlo-gold uppercase tracking-[0.16em] font-medium block">04 / FORÇA COMERCIAL</span>
+                            <h3 class="text-lg sm:text-xl font-semibold text-arlo-textPrimary leading-snug">
+                                "Quais clientes ativos dão sinais silenciosos de que vão reduzir ou parar de comprar nos próximos 60 dias?"
+                            </h3>
+                        </div>
+                        <p class="text-base text-arlo-textSecondary leading-[1.65] pt-2 border-t border-arlo-border">
+                            Detectamos mudanças no padrão de frequência e tíquete médio antes que o cliente migre para a concorrência.
+                        </p>
+                    </article>
+
+                    <!-- Question Card 5 -->
+                    <article class="executive-card p-7 sm:p-8 space-y-4 flex flex-col justify-between reveal">
+                        <div class="space-y-3.5">
+                            <span class="font-mono text-xs text-arlo-gold uppercase tracking-[0.16em] font-medium block">05 / EFICIÊNCIA OPERACIONAL</span>
+                            <h3 class="text-lg sm:text-xl font-semibold text-arlo-textPrimary leading-snug">
+                                "Onde estão os gargalos operacionais que encarecem nossa entrega sem agregar valor ao cliente?"
+                            </h3>
+                        </div>
+                        <p class="text-base text-arlo-textSecondary leading-[1.65] pt-2 border-t border-arlo-border">
+                            Cruzamos tempos de execução, retrabalho e custos fixos por centro de custo para encontrar folgas de capacidade.
+                        </p>
+                    </article>
+
+                    <!-- Question Card 6 -->
+                    <article class="executive-card p-7 sm:p-8 space-y-4 flex flex-col justify-between reveal">
+                        <div class="space-y-3.5">
+                            <span class="font-mono text-xs text-arlo-gold uppercase tracking-[0.16em] font-medium block">06 / EXPANSÃO SEGURA</span>
+                            <h3 class="text-lg sm:text-xl font-semibold text-arlo-textPrimary leading-snug">
+                                "Qual perfil de cliente tem o menor custo de aquisição e o maior valor deixado ao longo do tempo?"
+                            </h3>
+                        </div>
+                        <p class="text-base text-arlo-textSecondary leading-[1.65] pt-2 border-t border-arlo-border">
+                            Direcionamos o investimento comercial e de marketing exatamente para o segmento que multiplica o retorno da empresa.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SECTION 4: METODOLOGIA / COMO TRABALHAMOS (#metodologia)
+        =========================================== -->
+        <section id="metodologia" class="py-24 lg:py-36 border-t border-arlo-border relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="max-w-3xl space-y-4 reveal">
+                    <div class="inline-flex items-center gap-3">
+                        <span class="w-8 h-[1px] bg-arlo-gold"></span>
+                        <span class="font-mono text-xs uppercase tracking-[0.22em] text-arlo-gold font-medium">Como Trabalhamos</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-light text-arlo-textPrimary tracking-[-0.02em] leading-[1.18]">
+                        Um processo fluido, confidencial e <span class="font-serif italic font-normal text-arlo-gold">sem sobrecarregar sua equipe.</span>
+                    </h2>
+                    <p class="text-arlo-textSecondary text-base sm:text-lg font-normal leading-[1.65] pt-1">
+                        Você não precisa ter "dados perfeitos" nem parar sua operação para começar. Nós assumimos o trabalho pesado de estruturação e entregamos a inteligência pronta para uso.
+                    </p>
+                </div>
+
+                <!-- 4 Steps Horizontal Timeline -->
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7">
+                    
+                    <!-- Step 1 -->
+                    <div class="executive-card p-7 sm:p-8 relative reveal">
+                        <div class="flex items-center justify-between pb-5 mb-5 border-b border-arlo-border">
+                            <span class="font-logo text-2xl text-arlo-gold font-medium">01</span>
+                            <span class="font-mono text-xs uppercase tracking-[0.16em] text-arlo-textMuted font-medium">Alinhamento</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-arlo-textPrimary mb-3">Entendimento do Momento</h3>
+                        <p class="text-base text-arlo-textSecondary leading-[1.65]">
+                            Conversamos diretamente com os sócios ou diretores para mapear as dores prioritárias, metas do negócio e as perguntas críticas que precisam de resposta.
+                        </p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="executive-card p-7 sm:p-8 relative reveal">
+                        <div class="flex items-center justify-between pb-5 mb-5 border-b border-arlo-border">
+                            <span class="font-logo text-2xl text-arlo-gold font-medium">02</span>
+                            <span class="font-mono text-xs uppercase tracking-[0.16em] text-arlo-textMuted font-medium">Coleta Limpa</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-arlo-textPrimary mb-3">Organização dos Dados</h3>
+                        <p class="text-base text-arlo-textSecondary leading-[1.65]">
+                            Conectamos ou extraímos as informações que sua empresa já possui (ERP, CRM, extratos ou planilhas internas) sob sigilo absoluto (NDA), higienizando inconsistências.
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="executive-card p-7 sm:p-8 relative reveal">
+                        <div class="flex items-center justify-between pb-5 mb-5 border-b border-arlo-border">
+                            <span class="font-logo text-2xl text-arlo-gold font-medium">03</span>
+                            <span class="font-mono text-xs uppercase tracking-[0.16em] text-arlo-textMuted font-medium">Laboratório ARLO</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-arlo-textPrimary mb-3">Cruzamento & Modelagem</h3>
+                        <p class="text-base text-arlo-textSecondary leading-[1.65]">
+                            Aplicamos engenharia analítica e visão de negócios para cruzar variáveis financeiras, operacionais e comerciais, revelando padrões invisíveis no dia a dia.
+                        </p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="executive-card p-7 sm:p-8 relative reveal">
+                        <div class="flex items-center justify-between pb-5 mb-5 border-b border-arlo-border">
+                            <span class="font-logo text-2xl text-arlo-gold font-medium">04</span>
+                            <span class="font-mono text-xs uppercase tracking-[0.16em] text-arlo-textMuted font-medium">Decisão</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-arlo-textPrimary mb-3">Entrega Executiva & Plano</h3>
+                        <p class="text-base text-arlo-textSecondary leading-[1.65]">
+                            Entregamos diagnósticos objetivos, painéis contínuos de acompanhamento e recomendações práticas para execução imediata pela gestão.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+              SECTION: QUEM SOMOS (#quem-somos)
+        =========================================== -->
+        <section id="quem-somos" class="py-24 lg:py-36 border-t border-arlo-border bg-arlo-surface/25 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header -->
+                <div class="max-w-3xl space-y-4 reveal">
+                    <div class="inline-flex items-center gap-3">
+                        <span class="w-8 h-[1px] bg-arlo-gold"></span>
+                        <span class="font-mono text-xs uppercase tracking-[0.22em] text-arlo-gold font-medium">Liderança & Rigor Analítico</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-light text-arlo-textPrimary tracking-[-0.02em] leading-[1.18]">
+                        A precisão dos métodos analíticos a serviço da <span class="font-serif italic font-normal text-arlo-gold">decisão do empresário.</span>
+                    </h2>
+                    <p class="text-arlo-textSecondary text-base sm:text-lg font-normal leading-[1.65] pt-1">
+                        A ARLO Intelligence nasce da convicção de que empresas não precisam de mais relatórios confusos, mas de capacidade analítica profunda aplicada diretamente ao lucro e à eficiência operacional.
+                    </p>
+                </div>
+
+                <!-- Content Grid: Perfil + Pilares -->
+                <div class="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
+                    
+                    <!-- Coluna Esquerda: Cartão do Fundador / Liderança -->
+                    <div class="lg:col-span-5 executive-card p-7 sm:p-9 flex flex-col justify-between relative reveal">
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 rounded-arlo-md bg-arlo-goldSoft border border-arlo-borderGold flex items-center justify-center text-arlo-gold font-logo text-xl shrink-0">
+                                    AL
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-semibold text-arlo-textPrimary">Astolfo Rezende Lameu</h3>
+                                    <p class="font-mono text-xs text-arlo-gold uppercase tracking-[0.14em] mt-1 font-medium">Liderança em Inteligência & Estratégia</p>
+                                </div>
+                            </div>
+
+                            <p class="text-base text-arlo-textSecondary leading-[1.65]">
+                                Formação em Economia com ênfase em métodos quantitativos, econometria e análise de séries temporais. Atuação voltada a planejamento financeiro, controle de desvios orçamentários e desenho de arquiteturas de dados executivas para suporte a decisões de alto impacto.
+                            </p>
+
+                            <ul class="pt-5 border-t border-arlo-border space-y-3 text-sm sm:text-[15px] text-arlo-textPrimary">
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold mt-2 shrink-0"></span>
+                                    <span>Modelagem financeira e proteção de margem de contribuição</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold mt-2 shrink-0"></span>
+                                    <span>Governança de métricas de vendas, retenção e expansão de carteira</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-arlo-gold mt-2 shrink-0"></span>
+                                    <span>Integração de dados com foco em velocidade para a diretoria</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="pt-6 mt-8 border-t border-arlo-border flex items-center justify-between gap-2">
+                            <span class="font-mono text-xs text-arlo-textMuted uppercase tracking-wider">Atendimento Consultivo Direto</span>
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-arlo-gold hover:text-arlo-goldHover transition-colors inline-flex items-center gap-1.5">
+                                <span>LinkedIn</span>
+                                <span aria-hidden="true">↗</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Coluna Direita: Os 3 Princípios de Atuação -->
+                    <div class="lg:col-span-7 flex flex-col justify-between gap-6 reveal">
+                        
+                        <div class="executive-card p-6 sm:p-8 space-y-3">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-9 h-9 rounded-arlo-sm bg-arlo-goldSoft border border-arlo-borderGold flex items-center justify-center text-arlo-gold text-xs font-mono font-semibold shrink-0">01</div>
+                                <h4 class="text-lg sm:text-xl font-semibold text-arlo-textPrimary">Sigilo Absoluto e Governança de Dados</h4>
+                            </div>
+                            <p class="text-base text-arlo-textSecondary leading-[1.65] sm:pl-12">
+                                Seus registros de faturamento, custos e clientes são tratados sob acordos formais de confidencialidade (NDA). Os dados permanecem sob total governança e propriedade da sua empresa, em estrita conformidade com a LGPD.
+                            </p>
+                        </div>
+
+                        <div class="executive-card p-6 sm:p-8 space-y-3">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-9 h-9 rounded-arlo-sm bg-arlo-goldSoft border border-arlo-borderGold flex items-center justify-center text-arlo-gold text-xs font-mono font-semibold shrink-0">02</div>
+                                <h4 class="text-lg sm:text-xl font-semibold text-arlo-textPrimary">Pragmatismo Econômico sobre Complexidade Estética</h4>
+                            </div>
+                            <p class="text-base text-arlo-textSecondary leading-[1.65] sm:pl-12">
+                                Não criamos gráficos apenas para visualização. Cada análise tem como objetivo único responder onde sua empresa perde rentabilidade, onde existe capital de giro retido e quais alavancas geram mais Ebitda.
+                            </p>
+                        </div>
+
+                        <div class="executive-card p-6 sm:p-8 space-y-3">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-9 h-9 rounded-arlo-sm bg-arlo-goldSoft border border-arlo-borderGold flex items-center justify-center text-arlo-gold text-xs font-mono font-semibold shrink-0">03</div>
+                                <h4 class="text-lg sm:text-xl font-semibold text-arlo-textPrimary">Modelo Boutique: Sem Intermediários</h4>
+                            </div>
+                            <p class="text-base text-arlo-textSecondary leading-[1.65] sm:pl-12">
+                                O empresário e sua diretoria conversam diretamente com os especialistas analíticos responsáveis pela arquitetura e auditoria dos modelos, garantindo alinhamento executivo ágil e sem ruídos operacionais.
+                            </p>
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
-        </div>
-    </section>
+        </section>
 
-   <!-- ==========================================
+        <!-- ==========================================
+             SECTION 5: INICIAR CONVERSA / CONTATO (#contato)
+        =========================================== -->
+        <section id="contato" class="py-24 lg:py-36 border-t border-arlo-border bg-architectural-grid relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
+                    
+                    <!-- Left Column: Direct Executive Context -->
+                    <div class="lg:col-span-5 space-y-8 reveal">
+                        <div class="space-y-4">
+                            <div class="inline-flex items-center gap-3">
+                                <span class="w-8 h-[1px] bg-arlo-gold"></span>
+                                <span class="font-mono text-xs uppercase tracking-[0.22em] text-arlo-gold font-medium">Contato Direto</span>
+                            </div>
+                            <h2 class="text-3xl sm:text-4xl lg:text-[2.75rem] font-light text-arlo-textPrimary tracking-[-0.02em] leading-[1.18]">
+                                Vamos conversar sobre o momento da <span class="font-serif italic font-normal text-arlo-gold">sua empresa.</span>
+                            </h2>
+                            <p class="text-arlo-textSecondary text-base sm:text-lg font-normal leading-[1.65] pt-1">
+                                Sem apresentações engessadas ou jargões técnicos. Conte-nos brevemente qual área do seu negócio pede mais clareza hoje e retornaremos para uma conversa inicial.
+                            </p>
+                        </div>
+
+                        <!-- What happens after contact -->
+                        <div class="executive-panel p-6 sm:p-7 space-y-4">
+                            <h3 class="text-xs font-mono uppercase tracking-[0.18em] text-arlo-gold font-medium">Como funciona nosso primeiro contato</h3>
+                            <ul class="space-y-3.5 text-sm sm:text-base text-arlo-textSecondary">
+                                <li class="flex items-start gap-3.5">
+                                    <span class="font-mono text-xs text-arlo-gold font-semibold mt-1">01.</span>
+                                    <span>Você nos envia uma mensagem pelo formulário ao lado ou diretamente pelo nosso canal executivo.</span>
+                                </li>
+                                <li class="flex items-start gap-3.5">
+                                    <span class="font-mono text-xs text-arlo-gold font-semibold mt-1">02.</span>
+                                    <span>Retornamos rapidamente por WhatsApp ou E-mail para entender o contexto da sua empresa.</span>
+                                </li>
+                                <li class="flex items-start gap-3.5">
+                                    <span class="font-mono text-xs text-arlo-gold font-semibold mt-1">03.</span>
+                                    <span>Indicamos com transparência como os dados que você já tem podem responder ao seu desafio atual.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Direct Contact Channels -->
+                        <div class="space-y-4 pt-1">
+                            <p class="font-mono text-xs uppercase tracking-[0.18em] text-arlo-textMuted font-medium">Canais Diretos ARLO Intelligence</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3.5">
+                                <a href="mailto:arlointelligence@gmail.com" class="flex items-center gap-4 p-4 rounded-arlo-md bg-arlo-surface/80 border border-arlo-border hover:border-arlo-borderGold transition-all group">
+                                    <div class="w-11 h-11 rounded-arlo-sm bg-arlo-goldSoft border border-arlo-borderGold flex items-center justify-center text-arlo-gold shrink-0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <span class="block text-xs font-mono uppercase tracking-wider text-arlo-textMuted">E-mail Corporativo</span>
+                                        <span class="text-sm sm:text-base font-medium text-arlo-textPrimary group-hover:text-arlo-gold transition-colors truncate block">arlointelligence@gmail.com</span>
+                                    </div>
+                                </a>
+                                <a href="https://www.instagram.com/arlointelligence/?utm_source=ig_web_button_share_sheet" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-4 rounded-arlo-md bg-arlo-surface/80 border border-arlo-border hover:border-arlo-borderGold transition-all group">
+                                    <div class="w-11 h-11 rounded-arlo-sm bg-arlo-goldSoft border border-arlo-borderGold flex items-center justify-center text-arlo-gold shrink-0">
+                                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                        </svg>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <span class="block text-xs font-mono uppercase tracking-wider text-arlo-textMuted">Instagram Oficial</span>
+                                        <span class="text-sm sm:text-base font-medium text-arlo-textPrimary group-hover:text-arlo-gold transition-colors truncate block">@arlointelligence</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Interactive Contact Form -->
+                    <div class="lg:col-span-7 reveal px-1 sm:px-2 lg:px-0">
+                        <div class="executive-panel p-6 sm:p-10 arlo-double-frame">
+                            <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-6">
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="nome" class="block text-xs font-mono uppercase tracking-[0.14em] text-arlo-textPrimary font-medium mb-2.5">Seu Nome *</label>
+                                        <input type="text" id="nome" required placeholder="Ex: Roberto Almeida" 
+                                            class="executive-input w-full px-4 py-3.5 text-base">
+                                    </div>
+                                    <div>
+                                        <label for="empresa" class="block text-xs font-mono uppercase tracking-[0.14em] text-arlo-textPrimary font-medium mb-2.5">Empresa & Cargo *</label>
+                                        <input type="text" id="empresa" required placeholder="Ex: Diretor / Sócio na Empresa X" 
+                                            class="executive-input w-full px-4 py-3.5 text-base">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="contato-retorno" class="block text-xs font-mono uppercase tracking-[0.14em] text-arlo-textPrimary font-medium mb-2.5">WhatsApp ou E-mail para Retorno *</label>
+                                        <input type="text" id="contato-retorno" required placeholder="(11) 99999-9999 ou seu@email.com" 
+                                            class="executive-input w-full px-4 py-3.5 text-base">
+                                    </div>
+                                    <div>
+                                        <label for="segmento" class="block text-xs font-mono uppercase tracking-[0.14em] text-arlo-textPrimary font-medium mb-2.5">Porte / Segmento da Empresa</label>
+                                        <select id="segmento" class="executive-input w-full px-4 py-3.5 text-base">
+                                            <option value="Indústria / Distribuição">Indústria ou Distribuição</option>
+                                            <option value="Serviços B2B">Serviços B2B / Consultoria</option>
+                                            <option value="Comércio / Varejo">Comércio ou Redes</option>
+                                            <option value="Tecnologia / Saúde / Outros">Tecnologia, Saúde ou Outros</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Selectable Topic Chips -->
+                                <div>
+                                    <label class="block text-xs font-mono uppercase tracking-[0.14em] text-arlo-textPrimary font-medium mb-3">Qual tema mais interessa no momento?</label>
+                                    <div class="flex flex-wrap gap-2.5" id="topic-chips">
+                                        <button type="button" onclick="toggleChip(this)" data-topic="Margem & Financeiro" class="topic-chip selected px-4 py-2.5 rounded-arlo-sm text-xs sm:text-sm font-medium border border-arlo-gold bg-arlo-goldSoft text-arlo-gold transition-all">
+                                            Entender Margens & Lucro Real
+                                        </button>
+                                        <button type="button" onclick="toggleChip(this)" data-topic="Dashboards & Indicadores" class="topic-chip px-4 py-2.5 rounded-arlo-sm text-xs sm:text-sm font-medium border border-arlo-border bg-white/[0.03] text-arlo-textSecondary hover:border-white/30 hover:text-arlo-textPrimary transition-all">
+                                            Organizar Indicadores / Painel Executivo
+                                        </button>
+                                        <button type="button" onclick="toggleChip(this)" data-topic="Inteligência Comercial" class="topic-chip px-4 py-2.5 rounded-arlo-sm text-xs sm:text-sm font-medium border border-arlo-border bg-white/[0.03] text-arlo-textSecondary hover:border-white/30 hover:text-arlo-textPrimary transition-all">
+                                            Eficiência Comercial & Clientes
+                                        </button>
+                                        <button type="button" onclick="toggleChip(this)" data-topic="Diagnóstico Geral" class="topic-chip px-4 py-2.5 rounded-arlo-sm text-xs sm:text-sm font-medium border border-arlo-border bg-white/[0.03] text-arlo-textSecondary hover:border-white/30 hover:text-arlo-textPrimary transition-all">
+                                            Quero um Diagnóstico Inicial
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="mensagem" class="block text-xs font-mono uppercase tracking-[0.14em] text-arlo-textPrimary font-medium mb-2.5">Contexto Breve (Opcional)</label>
+                                    <textarea id="mensagem" rows="3" placeholder="Conte-nos em poucas linhas o que você gostaria de enxergar com mais clareza na sua empresa..." 
+                                        class="executive-input w-full px-4 py-3.5 text-base"></textarea>
+                                </div>
+
+                                <div class="pt-3 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-arlo-border">
+                                    <p class="text-xs sm:text-sm text-arlo-textSecondary flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-arlo-gold shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                        </svg>
+                                        <span>Suas informações são tratadas com sigilo executivo.</span>
+                                    </p>
+                                    <button type="submit" class="btn-primary-gold w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-arlo-md font-semibold text-sm sm:text-base tracking-wide">
+                                        <span>Enviar Mensagem para a ARLO</span>
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </form>
+
+                            <!-- Interactive Confirmation Feedback State (Hidden Initially) -->
+                            <div id="contact-success" class="hidden py-8 text-center space-y-6">
+                                <div class="w-14 h-14 rounded-full bg-arlo-goldSoft border border-arlo-borderGold flex items-center justify-center mx-auto text-arlo-gold">
+                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <div class="space-y-2 max-w-md mx-auto">
+                                    <span class="font-mono text-xs uppercase tracking-[0.18em] text-arlo-gold">Solicitação Preparada</span>
+                                    <h3 class="text-2xl font-light text-arlo-textPrimary">Obrigado pelo interesse na ARLO Intelligence.</h3>
+                                    <p id="success-summary" class="text-base text-arlo-textSecondary leading-relaxed"></p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==========================================
           FOOTER
     =========================================== -->
-    <footer class="bg-arlo-bg border-t border-white/[0.07] py-14">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-8">
+    <footer class="bg-arlo-bg border-t border-arlo-border py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-10">
             
-           <!-- Brand Logo & Tagline -->
+            <!-- Brand Logo & Tagline -->
             <div class="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
-                <img src="logo.png" alt="ARLO Logo" class="h-24 sm:h-28 w-auto object-contain mix-blend-screen transition-transform duration-300 hover:scale-105">
+                <img src="logo.png" alt="ARLO Logo" class="h-20 sm:h-24 w-auto object-contain mix-blend-screen transition-transform duration-300 hover:scale-105">
                 <div>
-                    <p class="font-logo text-base sm:text-lg tracking-[0.25em] text-white">ARLO INTELLIGENCE</p>
-                    <p class="text-xs sm:text-sm text-gray-400 mt-1.5 max-w-sm">"A resposta que sua empresa precisa, nos dados que você já tem."</p>
+                    <p class="font-logo text-base sm:text-lg tracking-[0.26em] text-arlo-textPrimary font-medium">ARLO INTELLIGENCE</p>
+                    <p class="text-sm sm:text-base text-arlo-textSecondary mt-1.5 max-w-sm">"A resposta que sua empresa precisa, nos dados que você já tem."</p>
                 </div>
             </div>
 
             <!-- Right Links & Copyright -->
-            <div class="flex flex-col sm:items-end items-center gap-3 text-xs text-gray-500">
-                <div class="flex flex-wrap items-center justify-center sm:justify-end gap-6 text-gray-400">
+            <div class="flex flex-col md:items-end items-center gap-4 text-xs text-arlo-textMuted">
+                <nav class="flex flex-wrap items-center justify-center md:justify-end gap-6 text-sm text-arlo-textSecondary" aria-label="Links do Rodapé">
                     <a href="#solucoes" class="hover:text-arlo-gold transition-colors">O Que Fazemos</a>
                     <a href="#exemplos" class="hover:text-arlo-gold transition-colors">Na Prática</a>
                     <a href="#quem-somos" class="hover:text-arlo-gold transition-colors">Quem Somos</a>
                     <a href="#contato" class="hover:text-arlo-gold transition-colors">Contato</a>
-                    <a href="#topo" class="hover:text-white transition-colors">Topo ↑</a>
-                </div>
+                    <a href="#topo" class="hover:text-arlo-textPrimary transition-colors font-mono text-xs uppercase tracking-wider">Topo ↑</a>
+                </nav>
 
                 <!-- Instagram Button -->
                 <a href="https://www.instagram.com/arlointelligence/?utm_source=ig_web_button_share_sheet" 
                    target="_blank" 
                    rel="noopener noreferrer" 
-                   class="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-arlo-gold/50 text-gray-300 hover:text-white transition-all shadow-[0_2px_12px_rgba(0,0,0,0.3)] hover:shadow-[0_0_20px_rgba(245,197,24,0.15)] group"
+                   class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-arlo-md bg-arlo-surface hover:bg-arlo-elevated border border-arlo-border hover:border-arlo-borderGold text-arlo-textSecondary hover:text-arlo-textPrimary transition-all group"
                    aria-label="Instagram Oficial ARLO Intelligence">
                     <svg class="w-4 h-4 text-arlo-gold transition-transform duration-300 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                         <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                         <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                     </svg>
-                    <span class="font-medium text-xs text-gray-300 group-hover:text-white tracking-wide">Instagram</span>
-                    <span class="text-[11px] font-mono text-arlo-gold/80 group-hover:text-arlo-gold">@arlointelligence</span>
+                    <span class="font-medium text-xs text-arlo-textPrimary tracking-wide">Instagram</span>
+                    <span class="text-xs font-mono text-arlo-gold">@arlointelligence</span>
                 </a>
 
-                <p class="mt-0.5">© <span id="current-year">2026</span> ARLO Intelligence. Todos os direitos reservados.</p>
+                <p class="mt-0.5 text-arlo-textMuted">© <span id="current-year">2026</span> ARLO Intelligence. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
+
     <!-- ==========================================
          JAVASCRIPT: INTERACTIVITY & FLUID ANIMATIONS
     =========================================== -->
@@ -1164,10 +1368,12 @@
                 mobileMenu.classList.remove('hidden');
                 menuIconOpen.classList.add('hidden');
                 menuIconClose.classList.remove('hidden');
+                mobileMenuBtn.setAttribute('aria-expanded', 'true');
             } else {
                 mobileMenu.classList.add('hidden');
                 menuIconOpen.classList.remove('hidden');
                 menuIconClose.classList.add('hidden');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
             }
         });
 
@@ -1177,6 +1383,7 @@
                 mobileMenu.classList.add('hidden');
                 menuIconOpen.classList.remove('hidden');
                 menuIconClose.classList.add('hidden');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
             });
         });
 
@@ -1250,9 +1457,11 @@
             // Update Tab Button Styles
             document.querySelectorAll('.scenario-tab').forEach((btn, i) => {
                 if (i === index) {
-                    btn.className = "scenario-tab px-4 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all bg-arlo-gold text-arlo-bg shadow";
+                    btn.className = "scenario-tab px-4 py-3 rounded-arlo-md text-xs sm:text-sm font-semibold transition-all bg-arlo-gold text-arlo-bg shadow-arlo-cta text-center";
+                    btn.setAttribute('aria-selected', 'true');
                 } else {
-                    btn.className = "scenario-tab px-4 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-gray-300 hover:text-white";
+                    btn.className = "scenario-tab px-4 py-3 rounded-arlo-md text-xs sm:text-sm font-medium transition-all text-arlo-textSecondary hover:text-arlo-textPrimary hover:bg-white/[0.04] text-center";
+                    btn.setAttribute('aria-selected', 'false');
                 }
             });
 
@@ -1272,7 +1481,7 @@
             // Update Tags
             const tagsContainer = document.getElementById('scenario-raw-tags');
             tagsContainer.innerHTML = s.rawTags.map(tag => 
-                `<span class="font-mono text-[11px] px-2.5 py-1 rounded bg-white/[0.04] text-gray-300">${tag}</span>`
+                `<span class="font-mono text-xs px-3 py-1 rounded-arlo-sm bg-white/[0.05] text-arlo-textPrimary border border-arlo-border">${tag}</span>`
             ).join('');
 
             // Update Comparison Bars
@@ -1288,13 +1497,13 @@
         function toggleChip(button) {
             button.classList.toggle('selected');
             if (button.classList.contains('selected')) {
-                button.className = "topic-chip selected px-3.5 py-2 rounded-lg text-xs font-medium border border-arlo-gold bg-arlo-gold/15 text-arlo-gold transition-all";
+                button.className = "topic-chip selected px-4 py-2.5 rounded-arlo-sm text-xs sm:text-sm font-medium border border-arlo-gold bg-arlo-goldSoft text-arlo-gold transition-all";
             } else {
-                button.className = "topic-chip px-3.5 py-2 rounded-lg text-xs font-medium border border-white/10 bg-white/[0.02] text-gray-300 hover:border-white/30 transition-all";
+                button.className = "topic-chip px-4 py-2.5 rounded-arlo-sm text-xs sm:text-sm font-medium border border-arlo-border bg-white/[0.03] text-arlo-textSecondary hover:border-white/30 hover:text-arlo-textPrimary transition-all";
             }
         }
 
- // Handle Contact Form Submission
+        // Handle Contact Form Submission
         async function handleContactSubmit(event) {
             event.preventDefault();
             const nome = document.getElementById('nome').value.trim();
@@ -1340,19 +1549,19 @@
                     throw new Error('Falha no envio');
                 }
 
-                // Atualiza o ecrã de confirmação sem os botões de e-mail/WhatsApp
+                // Atualiza o ecrã de confirmação
                 const successBox = document.getElementById('contact-success');
                 successBox.innerHTML = `
                     <div class="py-8 text-center">
-                        <div class="w-12 h-12 rounded-full bg-arlo-gold/10 border border-arlo-gold/30 flex items-center justify-center mx-auto mb-6">
-                            <svg class="w-5 h-5 text-arlo-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-14 h-14 rounded-full bg-arlo-goldSoft border border-arlo-borderGold flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-6 h-6 text-arlo-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
                         </div>
-                        <p class="text-xs font-mono uppercase tracking-widest text-arlo-gold mb-2">Solicitação Enviada</p>
-                        <h3 class="text-2xl font-semibold text-white mb-3">Obrigado pelo interesse na ARLO Intelligence.</h3>
-                        <p class="text-zinc-400 text-sm max-w-md mx-auto leading-relaxed">
-                            Recebemos as informações de <strong class="text-zinc-200">${nome}</strong> (<strong class="text-zinc-200">${empresa}</strong>). A nossa equipa analisará o contexto enviado e entrará em contato em breve através de <strong class="text-zinc-200">${retorno}</strong>.
+                        <p class="text-xs font-mono uppercase tracking-[0.18em] text-arlo-gold mb-2 font-medium">Solicitação Enviada</p>
+                        <h3 class="text-2xl font-semibold text-arlo-textPrimary mb-3">Obrigado pelo interesse na ARLO Intelligence.</h3>
+                        <p class="text-arlo-textSecondary text-base max-w-md mx-auto leading-relaxed">
+                            Recebemos as informações de <strong class="text-arlo-textPrimary">${nome}</strong> (<strong class="text-arlo-textPrimary">${empresa}</strong>). A nossa equipa analisará o contexto enviado e entrará em contato em breve através de <strong class="text-arlo-textPrimary">${retorno}</strong>.
                         </p>
                     </div>
                 `;
@@ -1370,6 +1579,7 @@
                 }
             }
         }
+
         // Scroll Reveal Observer for Fluid Animations
         const observerOptions = {
             threshold: 0.12,
@@ -1410,18 +1620,18 @@
         });
     </script>
 
-<!-- Floating Cookie Consent Banner -->
-<div id="cookie-banner" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-50 p-4 rounded-xl bg-arlo-surface/95 border border-white/10 backdrop-blur-md shadow-2xl transition-all duration-500 translate-y-32 opacity-0 pointer-events-none">
-    <div class="flex flex-col gap-3">
-        <p class="text-xs text-gray-300 leading-relaxed">
-            Utilizamos métricas anônimas de navegação para aprimorar a experiência executiva da plataforma, em conformidade com as diretrizes de governança da LGPD.
-        </p>
-        <div class="flex items-center justify-end gap-3 pt-1">
-            <button id="accept-cookies" class="px-4 py-1.5 rounded-lg bg-arlo-gold text-arlo-bg font-semibold text-xs tracking-wide hover:bg-yellow-400 transition-colors">
-                Concordar e Fechar
-            </button>
+    <!-- Floating Cookie Consent Banner -->
+    <div id="cookie-banner" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-50 p-5 rounded-arlo-lg glass-header border border-arlo-border shadow-arlo-card transition-all duration-500 translate-y-32 opacity-0 pointer-events-none">
+        <div class="flex flex-col gap-3.5">
+            <p class="text-xs sm:text-sm text-arlo-textSecondary leading-relaxed">
+                Utilizamos métricas anônimas de navegação para aprimorar a experiência executiva da plataforma, em conformidade com as diretrizes de governança da LGPD.
+            </p>
+            <div class="flex items-center justify-end gap-3 pt-1">
+                <button id="accept-cookies" class="btn-primary-gold px-5 py-2 rounded-arlo-sm font-semibold text-xs tracking-wide">
+                    Concordar e Fechar
+                </button>
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>
